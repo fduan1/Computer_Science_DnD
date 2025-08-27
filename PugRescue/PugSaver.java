@@ -13,6 +13,7 @@ public class PugSaver {
 						tempDogPosition = j;
 					}
 					if (tempDogPosition < i) {
+						i = list.size();
 						break;
 					}
 				}
