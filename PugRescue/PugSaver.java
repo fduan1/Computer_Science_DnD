@@ -3,12 +3,22 @@ import java.util.Objects;
 
 public class PugSaver {
 
-	//Moves every dog whose breed is "Pug" in the list to the back of the list
+	// Moves every dog whose breed is "Pug" in the list to the back of the list
 	public static void rescuePugs(ArrayList<Dog> list) {
 		for (int i = 0; i < list.size(); i++) {
-			if (!list.get(i).getBreed().contains("golden")) {
-				list.add(0, list.get(i));
-				list.remove(i+1);
+			if (list.get(i).getBreed().toLowerCase().contains("golden")) {
+				int tempDogPosition = list.size() - 1;
+				for (int j = tempDogPosition; j >= 0; j--) {
+					if (!list.get(j).getBreed().toLowerCase().contains("golden")) {
+						tempDogPosition = j;
+					}
+					if (tempDogPosition < i) {
+						break;
+					}
+				}
+				Dog tempGolden = list.get(i);
+				list.set(i, list.get(tempDogPosition));
+				list.set(tempDogPosition, tempGolden);
 			}
 		}
 	}
