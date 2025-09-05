@@ -2,6 +2,8 @@
 public class PugSaverTester {
 
     public static void main(String[] args) {
+        // add and rescuePugs (set, get)
+
         MyArrayList<Dog> dogs = new MyArrayList<Dog>();
         Dog poodle = new Dog("lassie", "poodle");
         dogs.add(new Dog("cat", "pug"));
@@ -19,7 +21,6 @@ public class PugSaverTester {
         dogs.add(new Dog("lexie", "pug"));
         dogs.add(new Dog("jess", "golden doodle"));
         
-        // add and rescuePugs (set, get, contains)
         PugSaver.rescuePugs(dogs);
         System.out.println(dogs);
 
@@ -27,7 +28,13 @@ public class PugSaverTester {
         dogs.remove(1);
         System.out.println("\n"+dogs);
         dogs.remove(poodle);
-        System.out.println("\n"+dogs);
+        System.out.println(dogs.contains(poodle) + "" + dogs.size());
+
+        // add at index pt
+        dogs.add(2,poodle);
+        System.out.println(dogs.contains(poodle) + "" + dogs.size());
+        System.out.println(dogs);
+        
 
     }
 

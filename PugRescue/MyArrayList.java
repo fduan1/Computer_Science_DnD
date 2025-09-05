@@ -45,7 +45,7 @@ public class MyArrayList<E> {
 	/* Get the index-th object in the list. */
 	public E get(int index) {
 		/* ---- YOUR CODE HERE ---- */
-		if (index >= this.size()) {
+		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
 		} else if (internalArray[index] == null) {
 			throw new NullPointerException();
@@ -57,6 +57,9 @@ public class MyArrayList<E> {
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
 		if (internalArray[index] == null) {
 			objectCount++;
 		}
@@ -82,18 +85,21 @@ public class MyArrayList<E> {
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
 		if (objectCount == internalArray.length) {
-			E[] expandedArray = (E[]) new Object[internalArray.length * 2];
+			E[] expandedArray = (E[]) new Object[internalArray.length * internalArray.length];
 			for (int i = 0; i < index; i++) {
 				expandedArray[i] = internalArray[i];
 			}
 			this.internalArray = expandedArray;
 		}
-		for (int i = index; i < this.objectCount; i++) {
-			this.set(index + 1, internalArray[i]);
-			index++;
+		for (int i = objectCount - 1; i > index ; i--) {
+			this.set(i, internalArray[i - 1]);
 		}
-		this.set(index, obj);
+		internalArray[index] = null;
+		this.set(index, obj); // objCount++ included in set()
 
 	}
 
@@ -121,12 +127,12 @@ public class MyArrayList<E> {
 	public E remove(int index) {
 		/* ---- YOUR CODE HERE ---- */
 		E temp = this.internalArray[index];
-		this.internalArray[index] = null;
-		objectCount--;
 		for (int i = index + 1; i < this.objectCount; i++) {
 			this.set(index, internalArray[i]);
 			index++;
 		}
+		objectCount--;
+		internalArray[objectCount] = null;
 		return temp;
 	}
 
