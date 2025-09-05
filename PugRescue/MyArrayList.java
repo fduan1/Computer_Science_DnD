@@ -95,8 +95,8 @@ public class MyArrayList<E> {
 			}
 			this.internalArray = expandedArray;
 		}
-		for (int i = objectCount - 1; i > index ; i--) {
-			this.set(i, internalArray[i - 1]);
+		for (int i = objectCount; i > index; i--) {
+			internalArray[i] = internalArray[i - 1];
 		}
 		internalArray[index] = null;
 		this.set(index, obj); // objCount++ included in set()
@@ -110,14 +110,14 @@ public class MyArrayList<E> {
 		add(objectCount, obj);
 		return true;
 		// if (objectCount == internalArray.length) {
-		// 	E[] expandedArray = (E[]) new Object[internalArray.length * 2];
-		// 	for (int i = 0; i < objectCount; i++) {
-		// 		expandedArray[i] = internalArray[i];
-		// 	}
-		// 	expandedArray[internalArray.length] = obj;
-		// 	this.internalArray = expandedArray;
+		// E[] expandedArray = (E[]) new Object[internalArray.length * 2];
+		// for (int i = 0; i < objectCount; i++) {
+		// expandedArray[i] = internalArray[i];
+		// }
+		// expandedArray[internalArray.length] = obj;
+		// this.internalArray = expandedArray;
 		// } else {
-		// 	internalArray[objectCount] = obj;
+		// internalArray[objectCount] = obj;
 		// }
 		// objectCount++;
 		// return true;
@@ -166,10 +166,8 @@ public class MyArrayList<E> {
 	public String toString() {
 		/* ---- YOUR CODE HERE ---- */
 		String objs = "[";
-		for (int i = 0; i < internalArray.length; i++) {
-			if (internalArray[i] != null) {
-				objs += "" + internalArray[i] + ", ";
-			}
+		for (int i = 0; i < objectCount; i++) {
+			objs += "" + internalArray[i] + ", ";
 		}
 		return objs.substring(0, objs.length() - 2) + "]";
 	}
