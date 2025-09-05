@@ -10,7 +10,7 @@
 public class MyArrayList<E> {
 
 	/* Internal Object counter */
-	protected int objectCount;
+	protected int objectCount = 0;
 
 	/* Internal Object array */
 	protected E[] internalArray;
@@ -18,7 +18,7 @@ public class MyArrayList<E> {
 	/* Constructor: Create it with whatever capacity you want? */
 	@SuppressWarnings("unchecked")
 	public MyArrayList() {
-		this.internalArray = (E[]) new Object[100];
+		this.internalArray = (E[]) new Object[12];
 	}
 
 	/* Constructor with initial capacity */
@@ -29,23 +29,25 @@ public class MyArrayList<E> {
 
 	/* Return the number of active slots in the array list */
 	public int size() {
-		return internalArray.length;
 		/* ---- YOUR CODE HERE ---- */
+		return objectCount;
 	}
 
 	/* Are there zero objects in the array list? */
 	public boolean isEmpty() {
 		/* ---- YOUR CODE HERE ---- */
-		if (internalArray.length == 0) {
-			return true;
+		if (objectCount != 0) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/* Get the index-th object in the list. */
 	public E get(int index) {
 		/* ---- YOUR CODE HERE ---- */
-		if (internalArray[index] == null) {
+		if (index >= this.size()) {
+			throw new IndexOutOfBoundsException();
+		} else if (internalArray[index] == null) {
 			throw new NullPointerException();
 		} else {
 			return internalArray[index];
@@ -55,58 +57,99 @@ public class MyArrayList<E> {
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		if (internalArray[index] == null) {
+			objectCount++;
+		}
 		E temp = internalArray[index];
 		internalArray[index] = obj;
 		return temp;
 	}
 
-	// /*
-	// * Returns true if this list contains an element equal to obj; otherwise returns false.
-	// */
-	// public boolean contains(E obj) {
-	// /* ---- YOUR CODE HERE ---- */
-	// }
-
-	// /* Insert an object at index */
-	// @SuppressWarnings("unchecked")
-	// public void add(int index, E obj) {
-	// /* ---- YOUR CODE HERE ---- */
-
-	// }
-
-	/* Add an object to the end of the list; returns true */
-	@SuppressWarnings("unchecked")
-	public boolean add(E obj) {
+	/*
+	 * Returns true if this list contains an element equal to obj; otherwise returns false.
+	 */
+	public boolean contains(E obj) {
 		/* ---- YOUR CODE HERE ---- */
-		E[] expandedArray = (E[]) new Object[internalArray.length * 2];
-		if (internalArray[internalArray.length - 1] != null) {
-			for (int i = 0; i < internalArray.length; i++) {
-				while (internalArray[i] != null) {
-					expandedArray[i] = internalArray[i];
-				}
+		for (int i = 0; i < objectCount; i++) {
+			if (internalArray[i].equals(obj)) {
+				return true;
 			}
 		}
-		expandedArray[internalArray.length + 1] = obj;
-		internalArray = expandedArray;
-		return true;
+		return false;
 	}
 
-	// /* Remove the object at index and shift. Returns removed object. */
-	// public E remove(int index) {
-	// /* ---- YOUR CODE HERE ---- */
-	// }
+	/* Insert an object at index */
+	@SuppressWarnings("unchecked")
+	public void add(int index, E obj) {
+		/* ---- YOUR CODE HERE ---- */
+		if (objectCount == internalArray.length) {
+			E[] expandedArray = (E[]) new Object[internalArray.length * 2];
+			for (int i = 0; i < index; i++) {
+				expandedArray[i] = internalArray[i];
+			}
+			this.internalArray = expandedArray;
+		}
+		for (int i = index; i < this.objectCount; i++) {
+			this.set(index + 1, internalArray[i]);
+			index++;
+		}
+		this.set(index, obj);
 
-	// /*
-	// * Removes the first occurrence of the specified element from this list, if it is present. If
-	// * the list does not contain the element, it is unchanged. More formally, removes the element
-	// * with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i))) (if such an
-	// * element exists). Returns true if this list contained the specified element (or
-	// equivalently,
-	// * if this list changed as a result of the call).
-	// */
-	// public boolean remove(E obj) {
-	// /* ---- YOUR CODE HERE ---- */
-	// }
+	}
+
+	/* Add an object to the end of the list; returns true */
+	// @SuppressWarnings("unchecked")
+	public boolean add(E obj) {
+		/* ---- YOUR CODE HERE ---- */
+		add(objectCount, obj);
+		return true;
+		// if (objectCount == internalArray.length) {
+		// 	E[] expandedArray = (E[]) new Object[internalArray.length * 2];
+		// 	for (int i = 0; i < objectCount; i++) {
+		// 		expandedArray[i] = internalArray[i];
+		// 	}
+		// 	expandedArray[internalArray.length] = obj;
+		// 	this.internalArray = expandedArray;
+		// } else {
+		// 	internalArray[objectCount] = obj;
+		// }
+		// objectCount++;
+		// return true;
+	}
+
+	/* Remove the object at index and shift. Returns removed object. */
+	public E remove(int index) {
+		/* ---- YOUR CODE HERE ---- */
+		E temp = this.internalArray[index];
+		this.internalArray[index] = null;
+		objectCount--;
+		for (int i = index + 1; i < this.objectCount; i++) {
+			this.set(index, internalArray[i]);
+			index++;
+		}
+		return temp;
+	}
+
+	/*
+	 * Removes the first occurrence of the specified element from this list, if it is present. If
+	 * the list does not contain the element, it is unchanged. More formally, removes the element
+	 * with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i))) (if such an
+	 * element exists). Returns true if this list contained the specified element (or equivalently,
+	 * if this list changed as a result of the call).
+	 */
+	public boolean remove(E obj) {
+		/* ---- YOUR CODE HERE ---- */
+		if (!this.contains(obj)) {
+			return false;
+		}
+		for (int i = 0; i < this.objectCount; i++) {
+			if (internalArray[i].equals(obj)) {
+				remove(i);
+				return true;
+			}
+		}
+		return true;
+	}
 
 
 	/*
@@ -118,7 +161,9 @@ public class MyArrayList<E> {
 		/* ---- YOUR CODE HERE ---- */
 		String objs = "[";
 		for (int i = 0; i < internalArray.length; i++) {
-			objs += "" + internalArray[i] + ", ";
+			if (internalArray[i] != null) {
+				objs += "" + internalArray[i] + ", ";
+			}
 		}
 		return objs.substring(0, objs.length() - 2) + "]";
 	}
