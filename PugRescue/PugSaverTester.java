@@ -35,7 +35,7 @@ public class PugSaverTester {
         System.out.println(dogs.contains(poodle) + "" + dogs.size());
         System.out.println(dogs);
 
-        System.out.println(dogs.add(null));
+        dogs.add(1, null);
         System.out.println(dogs.size());
         System.out.println(dogs);
 
