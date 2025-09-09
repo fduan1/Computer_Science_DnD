@@ -6,6 +6,8 @@
 /*
  * Your indexed functions should throw IndexOutOfBoundsException if index is invalid!
  */
+import java.lang.StringBuilder;
+
 
 public class MyArrayList<E> {
 
@@ -47,11 +49,8 @@ public class MyArrayList<E> {
 		/* ---- YOUR CODE HERE ---- */
 		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
-		} else if (internalArray[index] == null) {
-			throw new NullPointerException();
-		} else {
-			return internalArray[index];
 		}
+		return internalArray[index];
 	}
 
 	/* Replace the object at index with obj. returns object that was replaced. */
@@ -154,7 +153,7 @@ public class MyArrayList<E> {
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 
@@ -165,11 +164,13 @@ public class MyArrayList<E> {
 	 */
 	public String toString() {
 		/* ---- YOUR CODE HERE ---- */
-		String objs = "[";
+		StringBuilder objs = new StringBuilder("[");
 		for (int i = 0; i < objectCount; i++) {
-			objs += "" + internalArray[i] + ", ";
+			objs.append(internalArray[i] + ", ");
 		}
-		return objs.substring(0, objs.length() - 2) + "]";
+		objs.delete(objs.length() - 2, objs.length()).append("]");
+		return objs.toString();
+
 	}
 
 }
