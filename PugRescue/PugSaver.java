@@ -5,9 +5,9 @@ public class PugSaver {
 
 	// Moves every dog whose breed is "Pug" in the list to the back of the list
 	public static void rescuePugs(MyArrayList<Dog> list) {
+		int tempDogPosition = list.size() - 1;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getBreed().toLowerCase().contains("golden")) {
-				int tempDogPosition = list.size() - 1;
 				for (int j = tempDogPosition; j >= 0; j--) {
 					if (!list.get(j).getBreed().toLowerCase().contains("golden")) {
 						tempDogPosition = j;
