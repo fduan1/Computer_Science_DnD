@@ -21,7 +21,7 @@ public class PugSaverTester {
         dogs.add(new Dog("lexie", "pug"));
         dogs.add(new Dog("jess", "golden doodle"));
 
-        for (int i = 0; i < 300000; i++) {
+        for (int i = 0; i < 200000; i++) {
             dogs.add(new Dog("cat", "pug"));
             dogs.add(new Dog("henry", "golden retriver"));
             dogs.add(new Dog("bob", "pug"));

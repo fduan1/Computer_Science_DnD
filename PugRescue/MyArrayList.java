@@ -32,12 +32,14 @@ public class MyArrayList<E> {
 	/* Return the number of active slots in the array list */
 	public int size() {
 		/* ---- YOUR CODE HERE ---- */
+		// O(1)
 		return objectCount;
 	}
 
 	/* Are there zero objects in the array list? */
 	public boolean isEmpty() {
 		/* ---- YOUR CODE HERE ---- */
+		// O(1)
 		if (objectCount != 0) {
 			return false;
 		}
@@ -46,6 +48,7 @@ public class MyArrayList<E> {
 
 	/* Get the index-th object in the list. */
 	public E get(int index) {
+		// O(1)
 		/* ---- YOUR CODE HERE ---- */
 		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
@@ -56,6 +59,7 @@ public class MyArrayList<E> {
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		// O(1)
 		if (index > objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -71,6 +75,7 @@ public class MyArrayList<E> {
 	 * Returns true if this list contains an element equal to obj; otherwise returns false.
 	 */
 	public boolean contains(E obj) {
+		// O(n)
 		/* ---- YOUR CODE HERE ---- */
 		for (int i = 0; i < objectCount; i++) {
 			if (internalArray[i].equals(obj)) {
@@ -83,6 +88,7 @@ public class MyArrayList<E> {
 	/* Insert an object at index */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
+		// O(2n)
 		/* ---- YOUR CODE HERE ---- */
 		if (index > objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
@@ -106,6 +112,7 @@ public class MyArrayList<E> {
 	// @SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		// O(n)
 		add(objectCount, obj);
 		return true;
 		// if (objectCount == internalArray.length) {
@@ -125,6 +132,7 @@ public class MyArrayList<E> {
 	/* Remove the object at index and shift. Returns removed object. */
 	public E remove(int index) {
 		/* ---- YOUR CODE HERE ---- */
+		// O(n)
 		E temp = this.internalArray[index];
 		for (int i = index + 1; i < this.objectCount; i++) {
 			this.set(index, internalArray[i]);
@@ -144,6 +152,7 @@ public class MyArrayList<E> {
 	 */
 	public boolean remove(E obj) {
 		/* ---- YOUR CODE HERE ---- */
+		// O(n)
 		if (!this.contains(obj)) {
 			return false;
 		}
@@ -164,6 +173,7 @@ public class MyArrayList<E> {
 	 */
 	public String toString() {
 		/* ---- YOUR CODE HERE ---- */
+		// O(n)
 		StringBuilder objs = new StringBuilder("[");
 		for (int i = 0; i < objectCount; i++) {
 			objs.append(internalArray[i] + ", ");
