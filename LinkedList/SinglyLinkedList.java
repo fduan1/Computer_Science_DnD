@@ -18,19 +18,12 @@ public class SinglyLinkedList<E> {
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public SinglyLinkedList(Object[] values) {
-		tail = new ListNode(values[values.length - 1]);
 		head = new ListNode(values[0]);
-		int index = 0;
-		for (ListNode<E> i = head; i == tail; i = i.getNext()) {
-			if (index == values.length - 1) {
-				i.setNext(tail);
-				nodeCount = values.length;
-				break;
-			}
-			i.setNext(new ListNode(values[index]));
-			index++;
+		tail = head;
+		for (int i = 0; i < values.length; i++) {
+			this.add((E) values[i]);
 		}
-
+		nodeCount = values.length;
 	}
 
 	public ListNode<E> getHead() {
@@ -57,8 +50,8 @@ public class SinglyLinkedList<E> {
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
 	public boolean contains(E obj) {
-		for (ListNode<E> i = head; i == tail; i = i.getNext()) {
-			if (i.getValue() == obj) {
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
+			if (node.getValue() == obj) {
 				return true;
 			}
 		}
@@ -69,8 +62,8 @@ public class SinglyLinkedList<E> {
 	// if not found, returns -1.
 	public int indexOf(E obj) {
 		int index = 0;
-		for (ListNode<E> i = head; i == tail; i = i.getNext()) {
-			if (i.getValue() == obj) {
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
+			if (node.getValue() == obj) {
 				return index;
 			}
 			index++;
@@ -81,8 +74,16 @@ public class SinglyLinkedList<E> {
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
 	public boolean add(E obj) {
-		tail.setNext(new ListNode<E>(obj));
+		ListNode newNode = new ListNode<E>(obj);
+		if (nodeCount == 0) {
+			head = newNode;
+			tail = head;
+			nodeCount++;
+			return true;
+		}
+		tail.setNext(newNode);
 		this.tail = tail.getNext();
+		nodeCount++;
 		return true;
 	}
 
@@ -94,12 +95,13 @@ public class SinglyLinkedList<E> {
 			return false;
 		}
 		ListNode<E> node = head;
-		for (int i = 0; i < index; i++) {
-			node = node.getNext();
-			if (i == index - 1) {
+		for (int i = 0; i <= index; i++) {
+			if (i == index) {
 				node.setNext((node.getNext()).getNext());
+				nodeCount--;
 				return true;
 			}
+			node = node.getNext();
 		}
 		return false;
 
@@ -108,7 +110,7 @@ public class SinglyLinkedList<E> {
 	// Returns the i-th element.
 	public E get(int i) {
 		int index = 0;
-		for (ListNode<E> node = head; node == tail; node = node.getNext()) {
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i) {
 				return node.getValue();
 			}
@@ -123,7 +125,7 @@ public class SinglyLinkedList<E> {
 		if (i < 0 || i >= nodeCount) {
 			return null;
 		}
-		for (ListNode<E> node = head; node == tail; node = node.getNext()) {
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i) {
 				E oldValue = node.getValue();
 				node.setValue((E) obj); // ask abt this bc object isnt E??
@@ -138,13 +140,18 @@ public class SinglyLinkedList<E> {
 	// of the list by one.
 	public void add(int i, Object obj) {
 		int index = 0;
-		for (ListNode<E> node = head; node == tail; node = node.getNext()) {
+		if (i == 0) {
+			ListNode<E> newItem = new ListNode(obj, head);
+			head = newItem;
+		}
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {
 				ListNode<E> nextItem = node.getNext();
 				node.setNext(new ListNode(obj, nextItem));
 			}
 			index++;
 		}
+		nodeCount++;
 	}
 
 	// Removes the i-th element and returns its value.
@@ -154,10 +161,11 @@ public class SinglyLinkedList<E> {
 		if (i < 0 || i >= nodeCount) {
 			return null;
 		}
-		for (ListNode<E> node = head; node == tail; node = node.getNext()) {
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {
 				E value = node.getNext().getValue();
 				node.setNext(node.getNext().getNext());
+				nodeCount--;
 				return value;
 			}
 			index++;
@@ -167,12 +175,12 @@ public class SinglyLinkedList<E> {
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
 	public String toString() {
-		StringBuilder nodes = new StringBuilder("[");
-		for (ListNode<E> node = head; node == tail; node = node.getNext()) {
-			nodes.append(node.getValue().toString()).append(", ");
+		StringBuilder objs = new StringBuilder("[");
+		for (ListNode<E> node = head; node != null; node = node.getNext()) {
+			objs.append(node.getValue() + ", ");
 		}
-		nodes.delete(nodes.length() - 2, nodes.length()).append("]");
-		return nodes.toString();
+		objs.delete(objs.length() - 2, objs.length()).append("]");
+		return objs.toString();
 	}
 
 
