@@ -50,10 +50,8 @@ public class SinglyLinkedList<E> {
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
 	public boolean contains(E obj) {
-		for (ListNode<E> node = head; node != null; node = node.getNext()) {
-			if (node.getValue() == obj) {
-				return true;
-			}
+		if (this.indexOf(obj) != -1) {
+			return true;
 		}
 		return false;
 	}
@@ -95,8 +93,8 @@ public class SinglyLinkedList<E> {
 			return false;
 		}
 		ListNode<E> node = head;
-		for (int i = 0; i <= index; i++) {
-			if (i == index) {
+		for (int i = 0; i < index; i++) {
+			if (i == index-1) {
 				node.setNext((node.getNext()).getNext());
 				nodeCount--;
 				return true;
@@ -143,6 +141,7 @@ public class SinglyLinkedList<E> {
 		if (i == 0) {
 			ListNode<E> newItem = new ListNode(obj, head);
 			head = newItem;
+
 		}
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {

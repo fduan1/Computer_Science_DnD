@@ -19,8 +19,9 @@ public class LinkedListTester {
         System.out.println(nodes);
         nodes.add("h");
         System.out.println(nodes.indexOf("h"));
-        System.out.println(nodes.contains("g"));
         System.out.println(nodes.indexOf("e"));
+        System.out.println(nodes.contains("g"));
+        System.out.println(nodes.remove("g"));
         System.out.println(nodes);
 
     }
