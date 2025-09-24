@@ -92,21 +92,30 @@ public class SinglyLinkedList<E> {
 		if (index == -1) {
 			return false;
 		}
-		ListNode<E> node = head;
-		for (int i = 0; i < index; i++) {
-			if (i == index-1) {
-				node.setNext((node.getNext()).getNext());
-				nodeCount--;
-				return true;
-			}
-			node = node.getNext();
-		}
-		return false;
+		this.remove(index);
+		return true;
+		// if (index == 0) {
+		// 	head = head.getNext();
+		// 	return true;
+		// }
+
+		// for (ListNode<E> node = head; node != null; node = node.getNext()) {
+		// 	if (node.getValue().equals(obj)) {
+		// 		node.setNext((node.getNext()).getNext());
+		// 		nodeCount--;
+		// 		return true;
+		// 	}
+		// 	node = node.getNext();
+		// }
+		// return false;
 
 	}
 
 	// Returns the i-th element.
 	public E get(int i) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		int index = 0;
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i) {
@@ -141,7 +150,6 @@ public class SinglyLinkedList<E> {
 		if (i == 0) {
 			ListNode<E> newItem = new ListNode(obj, head);
 			head = newItem;
-
 		}
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {
@@ -159,6 +167,9 @@ public class SinglyLinkedList<E> {
 		int index = 0;
 		if (i < 0 || i >= nodeCount) {
 			return null;
+		}
+		if (i == 0) {
+			head = head.getNext();
 		}
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {

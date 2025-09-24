@@ -14,10 +14,11 @@ public class LinkedListTester {
         nodes.remove("a");
         nodes.set(6, "f");
         System.out.println(nodes);
-        nodes.remove(5);
-        nodes.add(4, "g");
+        nodes.remove(0);
         System.out.println(nodes);
         nodes.add("h");
+        nodes.add(4, "g");
+        System.out.println(nodes);
         System.out.println(nodes.indexOf("h"));
         System.out.println(nodes.indexOf("e"));
         System.out.println(nodes.contains("g"));
