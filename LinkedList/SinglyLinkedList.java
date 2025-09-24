@@ -147,6 +147,9 @@ public class SinglyLinkedList<E> {
 	// of the list by one.
 	public void add(int i, Object obj) {
 		int index = 0;
+		if (i < 0 || i > nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		if (i == 0) {
 			ListNode<E> newItem = new ListNode(obj, head);
 			head = newItem;
