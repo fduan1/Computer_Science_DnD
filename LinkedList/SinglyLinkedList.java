@@ -170,12 +170,16 @@ public class SinglyLinkedList<E> {
 		}
 		if (i == 0) {
 			head = head.getNext();
+			nodeCount--;
 		}
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i - 1) {
 				E value = node.getNext().getValue();
 				node.setNext(node.getNext().getNext());
 				nodeCount--;
+				if (nodeCount - 1 == index) {
+					tail = node;
+				}
 				return value;
 			}
 			index++;
