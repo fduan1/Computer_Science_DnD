@@ -13,7 +13,11 @@ public class DoublyLinkedList {
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public DoublyLinkedList(Nucleotide[] values) {
-
+		this.SENTINEL.setValue(values[0]);
+		for (int i = 0; i < values.length; i++) {
+			this.add((Nucleotide) values[i]);
+		}
+		nodeCount = values.length;
 	}
 	
 	public ListNode2<Nucleotide> getSentinel() {
@@ -31,15 +35,24 @@ public class DoublyLinkedList {
 
 	// Returns true if this list is empty; otherwise returns false.
 	public boolean isEmpty() {
+		if (nodeCount == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	// Returns the number of elements in this list.
 	public int size() {
+		return this.nodeCount;
 	}
 
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
 	public boolean contains(Nucleotide obj) {
+		if (this.indexOf(obj) == -1) {
+			return false;
+		}
+		return true;
 	}
 
 	// Returns the index of the first element in equal to obj;
