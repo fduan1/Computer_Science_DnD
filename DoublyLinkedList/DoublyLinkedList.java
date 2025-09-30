@@ -74,6 +74,9 @@ public class DoublyLinkedList {
 	// Adds obj to this collection.  Returns true if successful;
 	// otherwise returns false.
 	public boolean add(Nucleotide obj) {
+		ListNode2 newNode = new ListNode2<Nucleotide>(obj, SENTINEL.getPrevious(), SENTINEL);
+		SENTINEL.getPrevious().setNext(newNode);
+		SENTINEL.setPrevious(newNode);
 	}
 
 	// Removes the first element that is equal to obj, if any.
