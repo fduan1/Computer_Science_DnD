@@ -8,13 +8,16 @@ public class DoublyLinkedList {
 	// Constructor: creates an empty list
 	public DoublyLinkedList() {
 		nodeCount = 0;
+		this.SENTINEL.setPrevious(SENTINEL);
+		this.SENTINEL.setNext(SENTINEL);
 	}
 
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public DoublyLinkedList(Nucleotide[] values) {
-		this.SENTINEL.setValue(values[0]);
-		for (int i = 1; i < values.length; i++) {
+		this.SENTINEL.setPrevious(SENTINEL);
+		this.SENTINEL.setNext(SENTINEL);
+		for (int i = 0; i < values.length; i++) {
 			this.add((Nucleotide) values[i]);
 		}
 		nodeCount = values.length;
@@ -58,15 +61,12 @@ public class DoublyLinkedList {
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
 	public int indexOf(Nucleotide obj) {
-		if (SENTINEL.getValue().equals(obj)) {
-			return 0;
-		}
 		int index = 0;
-		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node == SENTINEL; node = node.getNext()) {
-			index++;
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
 			if (node.getValue().equals(obj)) {
 				return index;
 			}
+			index++;
 		}
 		return -1;
 	}
@@ -77,36 +77,103 @@ public class DoublyLinkedList {
 		ListNode2 newNode = new ListNode2<Nucleotide>(obj, SENTINEL.getPrevious(), SENTINEL);
 		SENTINEL.getPrevious().setNext(newNode);
 		SENTINEL.setPrevious(newNode);
+		nodeCount++;
+		return true;
 	}
 
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.
 	public boolean remove(Nucleotide obj) {
+		int objIndex = indexOf(obj);
+		if (objIndex == -1) {
+			return false;
+		}
+		this.remove(objIndex);
+		return true;
 	}
 
 	// Returns the i-th element.               
 	public Nucleotide get(int i) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
+		int index = 0;
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
+			if (index == i) {
+				return node.getValue();
+			}
+			index++;
+		}
+		return null;
 	}
 
 	// Replaces the i-th element with obj and returns the old value.
 	public Nucleotide set(int i, Nucleotide obj) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
+		Nucleotide oldValue = null;
+		int index = 0;
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
+			if (index == i) {
+				oldValue = SENTINEL.getValue();
+				SENTINEL.setValue(obj);
+			}
+			index++;
+		}
+		return oldValue;
 	}
 
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, Nucleotide obj) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
+		int index = 0;
+		ListNode2 newNode = new ListNode2<Nucleotide>(obj);
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
+			if (index == i) {
+				node.getPrevious().setNext(newNode);
+				newNode.setNext(node);
+				newNode.setPrevious(node.getPrevious());
+				node.setPrevious(newNode);
+				nodeCount++;
+			}
+			index++;
+		}
 	}
 
 	// Removes the i-th element and returns its value.
 	// Decrements the size of the list by one.
 	public Nucleotide remove(int i) {
+		if (i < 0 || i >= nodeCount){
+			throw new IndexOutOfBoundsException();
+		}
+		int index = 0;
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
+			index++;
+			if (index == i) {
+				node.getNext().setPrevious(node.getPrevious());
+				node.getPrevious().setNext(node.getNext());
+				nodeCount--;
+				return node.getValue();
+			}
+		}
+		return null;
 	}
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
 	public String toString() {
-
-
+		StringBuilder objs = new StringBuilder("[");
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
+			objs.append(node.getValue());
+			objs.append(", ");
+		}
+		objs.delete(objs.length() - 2, objs.length()).append("]");
+		return objs.toString();
 	}
+	
 	
 	// Like question 7 on the SinglyLinkedList test:
 	// Add a "segment" (another list) onto the end of this list
