@@ -152,13 +152,13 @@ public class DoublyLinkedList {
 		}
 		int index = 0;
 		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node != SENTINEL; node = node.getNext()) {
-			index++;
 			if (index == i) {
 				node.getNext().setPrevious(node.getPrevious());
 				node.getPrevious().setNext(node.getNext());
 				nodeCount--;
 				return node.getValue();
 			}
+			index++;
 		}
 		return null;
 	}
@@ -178,35 +178,43 @@ public class DoublyLinkedList {
 	// Like question 7 on the SinglyLinkedList test:
 	// Add a "segment" (another list) onto the end of this list
 	public void addSegmentToEnd(DoublyLinkedList seg) {
-		
+		for (ListNode2 node = seg.SENTINEL.getNext(); node != seg.SENTINEL; node = node.getNext()) {
+			this.add((Nucleotide)node.getValue());
+		}
 	}
 	
-	// Like question 8 on the SinglyLinkedList test:
-	// You are to remove the next 16 nodes from the list, after the node nodeBefore.
-	// (on the test these nodes were assumed to contain CCCCCCCCGGGGGGGG, but here
-	// you do not need to assume or check for that)
-	public void removeCCCCCCCCGGGGGGGG(ListNode2<Nucleotide> nodeBefore) {
-		
-	}
+	// // Like question 8 on the SinglyLinkedList test:
+	// // You are to remove the next 16 nodes from the list, after the node nodeBefore.
+	// // (on the test these nodes were assumed to contain CCCCCCCCGGGGGGGG, but here
+	// // you do not need to assume or check for that)
+	// public void removeCCCCCCCCGGGGGGGG(ListNode2<Nucleotide> nodeBefore) {
+	// 	if (this.contains(nodeBefore.getValue())) {
+	// 		return;
+	// 	}
+	// 	ListNode2<Nucleotide> node = nodeBefore.getNext();
+	// 	for (int i = 0; i < 16; i++) {
+	// 		this.remove(node);
+	// 	}
+	// }
 	
-	// Like question 9 on the SinglyLinkedList test:
-	// You are to find and delete the first instance of seg in the list.
-	// If seg is not in the list, return false, otherwise return true.
-	public boolean deleteSegment(DoublyLinkedList seg) {
+	// // Like question 9 on the SinglyLinkedList test:
+	// // You are to find and delete the first instance of seg in the list.
+	// // If seg is not in the list, return false, otherwise return true.
+	// public boolean deleteSegment(DoublyLinkedList seg) {
 		
-	}
+	// }
 	
-	// Like question 10 on the SinglyLinkedList test:
-	// Delete the last three nodes in the list
-	// If there are not enough nodes, return false
-	public boolean deleteLastThree() {
+	// // Like question 10 on the SinglyLinkedList test:
+	// // Delete the last three nodes in the list
+	// // If there are not enough nodes, return false
+	// public boolean deleteLastThree() {
 		
-	}
+	// }
 
-	// Like question 11 on the SinglyLinkedList test:
-	// Replaces every node containing "A" with three nodes containing "T" "A" "C"
-	public void replaceEveryAWithTAC() {
+	// // Like question 11 on the SinglyLinkedList test:
+	// // Replaces every node containing "A" with three nodes containing "T" "A" "C"
+	// public void replaceEveryAWithTAC() {
 		
-	}
+	// }
 
 }
