@@ -14,7 +14,7 @@ public class DoublyLinkedList {
 	// all elements from the array values, in the same order
 	public DoublyLinkedList(Nucleotide[] values) {
 		this.SENTINEL.setValue(values[0]);
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 1; i < values.length; i++) {
 			this.add((Nucleotide) values[i]);
 		}
 		nodeCount = values.length;
@@ -58,6 +58,17 @@ public class DoublyLinkedList {
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
 	public int indexOf(Nucleotide obj) {
+		if (SENTINEL.getValue().equals(obj)) {
+			return 0;
+		}
+		int index = 0;
+		for (ListNode2<Nucleotide> node = SENTINEL.getNext(); node == SENTINEL; node = node.getNext()) {
+			index++;
+			if (node.getValue().equals(obj)) {
+				return index;
+			}
+		}
+		return -1;
 	}
 
 	// Adds obj to this collection.  Returns true if successful;
