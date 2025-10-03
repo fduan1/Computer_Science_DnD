@@ -5,11 +5,13 @@ public class DoublyLinkedListTester {
         public static void main(String[] args) {
             Nucleotide[] values = {Nucleotide.C, Nucleotide.G, Nucleotide.A, Nucleotide.A,
                     Nucleotide.G, Nucleotide.T, Nucleotide.C};
+            
             DoublyLinkedList nodes = new DoublyLinkedList(values);
             Nucleotide A = Nucleotide.A;
             Nucleotide G = Nucleotide.G;
             Nucleotide C = Nucleotide.C;
             Nucleotide T = Nucleotide.T;
+            Nucleotide[] values2 = {C, A, C, C};
 
             System.out.println(nodes);
             System.out.println(nodes.get(1));
@@ -28,13 +30,16 @@ public class DoublyLinkedListTester {
             nodes.add(T);
             nodes.add(4, T);
             System.out.println(nodes);
+            System.out.println();
             DoublyLinkedList newNodes = new DoublyLinkedList(values);
-            nodes.addSegmentToEnd(newNodes);
+            newNodes.addSegmentToEnd(nodes);
+            System.out.println(newNodes);
+            ListNode2<Nucleotide> nodeBefore = newNodes.getHead();
+            newNodes.removeCCCCCCCCGGGGGGGG(nodeBefore);
+            System.out.println(newNodes + "\n");
+            DoublyLinkedList seg = new DoublyLinkedList(values2); 
+            nodes.deleteSegment(seg);
             System.out.println(nodes);
-            ListNode2<Nucleotide> nodeBefore = nodes.getHead();
-            nodes.removeCCCCCCCCGGGGGGGG(nodeBefore);
-            System.out.println(nodes);
-
         }
 
     }

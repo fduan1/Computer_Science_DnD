@@ -223,11 +223,30 @@ public class DoublyLinkedList {
 	// You are to find and delete the first instance of seg in the list.
 	// If seg is not in the list, return false, otherwise return true.
 	public boolean deleteSegment(DoublyLinkedList seg) {
-		int lengthSeg = seg.nodeCount;
-		
-		if (lengthSeg > nodeCount) {
+		int segLength = seg.nodeCount;
+		if (segLength > nodeCount) {
 			return false;
 		}
+		int matching = 0;
+		int index = 0;
+		ListNode2<Nucleotide> segNode = seg.getHead();
+		for (ListNode2<Nucleotide> node = this.getHead(); node != SENTINEL; node = node.getNext()) {
+			if (node.equals(segNode)) {
+				matching++;
+				segNode = segNode.getNext();
+			} else {
+				matching = 0;
+				segNode = seg.getHead();
+			}
+			if (matching == segLength) {
+				break;
+			}
+			index++;
+		}
+		for (int i = 0; i < segLength; i++) {
+			this.remove(index + 1);
+		}
+		return true;
 
 	}
 
