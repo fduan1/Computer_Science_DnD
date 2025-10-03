@@ -18,6 +18,10 @@ public class SinglyLinkedList<E> {
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public SinglyLinkedList(Object[] values) {
+		if (values.length == 0) {
+			new SinglyLinkedList();
+			return;
+		}
 		head = new ListNode(values[0]);
 		tail = head;
 		for (int i = 0; i < values.length; i++) {
@@ -111,11 +115,15 @@ public class SinglyLinkedList<E> {
 
 	}
 
-	// Returns the i-th element.
-	public E get(int i) {
+	public void checkIfInBounds(int i) {
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException();
 		}
+	}
+
+	// Returns the i-th element.
+	public E get(int i) {
+		checkIfInBounds(i);
 		int index = 0;
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i) {
@@ -128,10 +136,8 @@ public class SinglyLinkedList<E> {
 
 	// Replaces the i-th element with obj and returns the old value.
 	public E set(int i, Object obj) {
+		checkIfInBounds(i);
 		int index = 0;
-		if (i < 0 || i >= nodeCount) {
-			return null;
-		}
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			if (index == i) {
 				E oldValue = node.getValue();
@@ -146,10 +152,8 @@ public class SinglyLinkedList<E> {
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, Object obj) {
+		checkIfInBounds(i);
 		int index = 0;
-		if (i < 0 || i > nodeCount) {
-			throw new IndexOutOfBoundsException();
-		}
 		if (i == 0) {
 			ListNode<E> newItem = new ListNode(obj, head);
 			head = newItem;
@@ -168,9 +172,7 @@ public class SinglyLinkedList<E> {
 	// Decrements the size of the list by one.
 	public E remove(int i) {
 		int index = 0;
-		if (i < 0 || i >= nodeCount) {
-			return null;
-		}
+		checkIfInBounds(i);
 		if (i == 0) {
 			head = head.getNext();
 			nodeCount--;
@@ -192,6 +194,9 @@ public class SinglyLinkedList<E> {
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
 	public String toString() {
+		if (nodeCount == 0) {
+			return "[]";
+		}
 		StringBuilder objs = new StringBuilder("[");
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
 			objs.append(node.getValue() + ", ");
