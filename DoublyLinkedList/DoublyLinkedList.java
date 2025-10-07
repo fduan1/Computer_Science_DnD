@@ -212,6 +212,9 @@ public class DoublyLinkedList {
 	// you do not need to assume or check for that)
 	public void removeCCCCCCCCGGGGGGGG(ListNode2<Nucleotide> nodeBefore) {
 		int startIndex = nodeIndex(nodeBefore);
+		if (startIndex == -1) {
+			throw new IndexOutOfBoundsException();
+		}
 		if (nodeCount - startIndex < 16) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -227,6 +230,9 @@ public class DoublyLinkedList {
 		int segLength = seg.nodeCount;
 		if (segLength > nodeCount) {
 			return false;
+		}
+		if (seg == null || seg.nodeCount == 0) {
+			return true;
 		}
 		int matching = 0;
 		int index = 0;
@@ -271,7 +277,6 @@ public class DoublyLinkedList {
 	// Like question 11 on the SinglyLinkedList test:
 	// Replaces every node containing "A" with three nodes containing "T" "A" "C"
 	public void replaceEveryAWithTAC() {
-
 		int index = 0;
 		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node =
 				node.getNext()) {
