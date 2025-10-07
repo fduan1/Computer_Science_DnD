@@ -230,7 +230,7 @@ public class DoublyLinkedList {
 		int matching = 0;
 		int index = 0;
 		ListNode2<Nucleotide> segNode = seg.getHead();
-		for (ListNode2<Nucleotide> node = this.getHead(); node != SENTINEL; node = node.getNext()) {
+		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node = node.getNext()) {
 			if (node.equals(segNode)) {
 				matching++;
 				segNode = segNode.getNext();

@@ -88,7 +88,7 @@ public class MyArrayList<E> {
 	/* Insert an object at index */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
-		// O(2n)
+		// O(n)
 		/* ---- YOUR CODE HERE ---- */
 		if (index > objectCount || index < 0) {
 			throw new IndexOutOfBoundsException();
@@ -176,7 +176,8 @@ public class MyArrayList<E> {
 		// O(n)
 		StringBuilder objs = new StringBuilder("[");
 		for (int i = 0; i < objectCount; i++) {
-			objs.append(internalArray[i] + ", ");
+			objs.append(internalArray[i]);
+			objs.append(", ");
 		}
 		objs.delete(objs.length() - 2, objs.length()).append("]");
 		return objs.toString();

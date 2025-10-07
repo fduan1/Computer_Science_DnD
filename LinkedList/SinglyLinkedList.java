@@ -199,7 +199,8 @@ public class SinglyLinkedList<E> {
 		}
 		StringBuilder objs = new StringBuilder("[");
 		for (ListNode<E> node = head; node != null; node = node.getNext()) {
-			objs.append(node.getValue() + ", ");
+			objs.append(node.getValue());
+			objs.append(", ");
 		}
 		objs.delete(objs.length() - 2, objs.length()).append("]");
 		return objs.toString();
