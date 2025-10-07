@@ -144,6 +144,7 @@ public class DoublyLinkedList {
 				newNode.setPrevious(node.getPrevious());
 				node.setPrevious(newNode);
 				nodeCount++;
+				break;
 			}
 			index++;
 		}
@@ -230,18 +231,22 @@ public class DoublyLinkedList {
 		int matching = 0;
 		int index = 0;
 		ListNode2<Nucleotide> segNode = seg.getHead();
-		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node = node.getNext()) {
-			if (node.equals(segNode)) {
+		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node =
+				node.getNext()) {
+			Nucleotide thisValue = node.getValue();
+			Nucleotide segValue = segNode.getValue();
+			if (thisValue.equals(segValue)) {
 				matching++;
 				segNode = segNode.getNext();
 			} else {
 				matching = 0;
 				segNode = seg.getHead();
+				index++;
 			}
 			if (matching == segLength) {
 				break;
 			}
-			index++;
+
 		}
 		for (int i = 0; i < segLength; i++) {
 			this.remove(index + 1);
@@ -250,17 +255,45 @@ public class DoublyLinkedList {
 
 	}
 
-	// // Like question 10 on the SinglyLinkedList test:
-	// // Delete the last three nodes in the list
-	// // If there are not enough nodes, return false
-	// public boolean deleteLastThree() {
+	// Like question 10 on the SinglyLinkedList test:
+	// Delete the last three nodes in the list
+	// If there are not enough nodes, return false
+	public boolean deleteLastThree() {
+		if (nodeCount < 3) {
+			return false;
+		}
+		SENTINEL.setPrevious(SENTINEL.getPrevious().getPrevious().getPrevious().getPrevious());
+		SENTINEL.getPrevious().setNext(SENTINEL);
+		nodeCount -= 3;
+		return true;
+	}
 
-	// }
+	// Like question 11 on the SinglyLinkedList test:
+	// Replaces every node containing "A" with three nodes containing "T" "A" "C"
+	public void replaceEveryAWithTAC() {
 
-	// // Like question 11 on the SinglyLinkedList test:
-	// // Replaces every node containing "A" with three nodes containing "T" "A" "C"
-	// public void replaceEveryAWithTAC() {
-
-	// }
-
+		int index = 0;
+		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node =
+				node.getNext()) {
+			if (node.getValue().equals(Nucleotide.A)) {
+				ListNode2<Nucleotide> nodeA = node; //to keep track
+				ListNode2<Nucleotide> nodeT = new ListNode2<Nucleotide>(Nucleotide.T);
+				ListNode2<Nucleotide> nodeC = new ListNode2<Nucleotide>(Nucleotide.C);
+				// add T before
+				nodeA.getPrevious().setNext(nodeT);
+				nodeT.setNext(nodeA);
+				nodeT.setPrevious(nodeA.getPrevious());
+				nodeA.setPrevious(nodeT);
+				nodeCount++;
+				// add C after
+				nodeA.getNext().setPrevious(nodeC);
+				nodeC.setNext(nodeA.getNext());
+				nodeC.setPrevious(nodeA);
+				nodeA.setNext(nodeC);
+				nodeCount++;
+				node = node.getNext();
+			}
+			index++;
+		}
+	}
 }
