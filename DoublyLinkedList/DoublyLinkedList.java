@@ -277,7 +277,6 @@ public class DoublyLinkedList {
 	// Like question 11 on the SinglyLinkedList test:
 	// Replaces every node containing "A" with three nodes containing "T" "A" "C"
 	public void replaceEveryAWithTAC() {
-		int index = 0;
 		for (ListNode2<Nucleotide> node = this.getHead(); node != this.SENTINEL; node =
 				node.getNext()) {
 			if (node.getValue().equals(Nucleotide.A)) {
@@ -298,7 +297,6 @@ public class DoublyLinkedList {
 				nodeCount++;
 				node = node.getNext();
 			}
-			index++;
 		}
 	}
 }
