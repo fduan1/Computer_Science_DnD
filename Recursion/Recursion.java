@@ -33,14 +33,14 @@ public class Recursion {
 
 	// How many subsets are there of the numbers 1...n
 	// that don't contain any consecutive integers?
-	// e.g. for n = 4, the subsets are {1}, {2}, {3}, {4},
+	// e.g. for n = 4, the subsets are {}, {1}, {2}, {3}, {4},
 	// {1, 3}, {1, 4}, {2, 4}
 	// The other subsets of 1,2,3,4 that DO contain consecutive integers are
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
 		if (n == 1) {
-			return 1;
+			return 2; // one for itself and one for empty
 		}
 		return n-1 + (int) countNonConsecutiveSubsets(n-1);
 
