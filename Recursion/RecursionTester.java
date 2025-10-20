@@ -21,5 +21,7 @@ public class RecursionTester {
             }
             System.out.println();
         }
+
+        System.out.println(Recursion.countNonConsecutiveSubsets(5));
     }
 }

@@ -42,6 +42,7 @@ public class Recursion {
 		if (n == 1) {
 			return 1;
 		}
+		return n-1 + (int) countNonConsecutiveSubsets(n-1);
 
 	}
 
@@ -49,8 +50,12 @@ public class Recursion {
 	// // How many different ways can they jump up n stairs?
 	// // Jumping 1-1-2 is considered different than jumping 1-2-1
 	// // Precondition: n > 0
+	// TODO:
 	// public static long countWaysToJumpUpStairs(int n) {
-
+	// 	if (n == 1) {
+	// 		return 1;
+	// 	}
+	// 	return null;
 	// }
 
 	// // Everything above this line does NOT require a recursive helper method
