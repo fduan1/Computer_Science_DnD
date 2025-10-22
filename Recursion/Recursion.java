@@ -37,19 +37,23 @@ public class Recursion {
 	// {1, 3}, {1, 4}, {2, 4}
 	// The other subsets of 1,2,3,4 that DO contain consecutive integers are
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
+	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4}, {2,5}, {2,6}, {3,5}, {3,6}, {4,6}, {1,3,5}, {1,4,6}, {2,4,6}
+	// 2 to 5 to 8 to 12 to 20
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
 		if (n == 1) {
 			return 2; // one for itself and one for empty
 		}
-		return n-1 + (int) countNonConsecutiveSubsets(n-1);
-
+		return (2) + (int) countNonConsecutiveSubsets(n-1);
 	}
 
-	// // A kid at the bottom of the stairs can jump up 1, 2, or 3 stairs at a time.
-	// // How many different ways can they jump up n stairs?
-	// // Jumping 1-1-2 is considered different than jumping 1-2-1
-	// // Precondition: n > 0
+	// A kid at the bottom of the stairs can jump up 1, 2, or 3 stairs at a time.
+	// How many different ways can they jump up n stairs?
+	// Jumping 1-1-2 is considered different than jumping 1-2-1
+	// n = 2: 1-1; 2
+	// n = 3: 1-1-1; 1-2; 2-1; 3
+	// n = 
+	// Precondition: n > 0
 	// TODO:
 	// public static long countWaysToJumpUpStairs(int n) {
 	// 	if (n == 1) {
