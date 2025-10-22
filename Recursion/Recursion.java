@@ -54,13 +54,15 @@ public class Recursion {
 	// n = 3: 1-1-1; 1-2; 2-1; 3
 	// n = 
 	// Precondition: n > 0
-	// TODO:
-	// public static long countWaysToJumpUpStairs(int n) {
-	// 	if (n == 1) {
-	// 		return 1;
-	// 	}
-	// 	return null;
-	// }
+	public static long countWaysToJumpUpStairs(int n) {
+		if (n <= 2) {
+			return n;
+		}
+		if (n == 3) {
+			return 4;
+		}
+		return countWaysToJumpUpStairs(n-1) + countWaysToJumpUpStairs(n-2) + countWaysToJumpUpStairs(n-3);
+	}
 
 	// // Everything above this line does NOT require a recursive helper method
 	// // ----------------------------------
