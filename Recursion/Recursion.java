@@ -38,13 +38,13 @@ public class Recursion {
 	// The other subsets of 1,2,3,4 that DO contain consecutive integers are
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
 	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4}, {2,5}, {2,6}, {3,5}, {3,6}, {4,6}, {1,3,5}, {1,4,6}, {2,4,6}
-	// 2 to 5 to 8 to 12 to 20
+	// 2 to 5 to 8 to 13 to 20
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
-		if (n == 1) {
-			return 2; // one for itself and one for empty
+		if (n <= 1) {
+			return n+1; // one for itself and one for empty
 		}
-		return (2) + (int) countNonConsecutiveSubsets(n-1);
+		return countNonConsecutiveSubsets(n-1) + countNonConsecutiveSubsets(n-2);
 	}
 
 	// A kid at the bottom of the stairs can jump up 1, 2, or 3 stairs at a time.
