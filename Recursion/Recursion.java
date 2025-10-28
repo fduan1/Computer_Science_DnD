@@ -40,14 +40,15 @@ public class Recursion {
 	// {1, 3}, {1, 4}, {2, 4}
 	// The other subsets of 1,2,3,4 that DO contain consecutive integers are
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
-	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4}, {2,5}, {2,6}, {3,5}, {3,6}, {4,6}, {1,3,5}, {1,4,6}, {2,4,6}
+	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4}, {2,5}, {2,6},
+	// {3,5}, {3,6}, {4,6}, {1,3,5}, {1,4,6}, {2,4,6}
 	// 2 to 5 to 8 to 13 to 20
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
 		if (n <= 1) {
-			return n+1; // one for itself and one for empty
+			return n + 1; // one for itself and one for empty
 		}
-		return countNonConsecutiveSubsets(n-1) + countNonConsecutiveSubsets(n-2);
+		return countNonConsecutiveSubsets(n - 1) + countNonConsecutiveSubsets(n - 2);
 	}
 
 	// A kid at the bottom of the stairs can jump up 1, 2, or 3 stairs at a time.
@@ -55,7 +56,7 @@ public class Recursion {
 	// Jumping 1-1-2 is considered different than jumping 1-2-1
 	// n = 2: 1-1; 2
 	// n = 3: 1-1-1; 1-2; 2-1; 3
-	// n = 
+	// n =
 	// Precondition: n > 0
 	public static long countWaysToJumpUpStairs(int n) {
 		if (n <= 2) {
@@ -64,7 +65,8 @@ public class Recursion {
 		if (n == 3) {
 			return 4;
 		}
-		return countWaysToJumpUpStairs(n-1) + countWaysToJumpUpStairs(n-2) + countWaysToJumpUpStairs(n-3);
+		return countWaysToJumpUpStairs(n - 1) + countWaysToJumpUpStairs(n - 2)
+				+ countWaysToJumpUpStairs(n - 3);
 	}
 
 	// // Everything above this line does NOT require a recursive helper method
@@ -80,30 +82,57 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 	public static void printSubsets(String str) {
-		ArrayList<String> subsets = new ArrayList<>();
-
+		System.out.println(makeSubsetList(str));
 	}
 
+	// returns a list of all subsets
+	// n is the length of the string entered,subsets is the return and starts as an exact copy of the earlier shorter version, new sets is the new sets added to the total from the additional char (last)
 	public static ArrayList<String> makeSubsetList(String str) {
 		int n = str.length();
 		ArrayList<String> subsets = new ArrayList<>();
 		if (n <= 1) {
 			subsets.add("");
-			subsets.add("str");
+			subsets.add(str);
 			return subsets;
+		}
+		char last = str.charAt(n - 1);
+		subsets = makeSubsetList(str.substring(0, n - 1));
+		ArrayList<String> newSets = makeSubsetList(str.substring(0, n - 1));
+		for (int i = 0; i < newSets.size(); i++) {
+			subsets.set(i, newSets.get(i) + last);
+		}
+		subsets.addAll(newSets);
+		return subsets;
+	}
+
+	// List contains a single String to start.
+	// Prints all the permutations of str on separate lines
+	// You may assume that str has no repeated characters
+	// For example, permute("abc") could print out "abc", "acb", "bac", "bca",
+	// "cab", "cba"
+	// Order is your choice
+	public static void printPermutations(String str) {
+		
+	}
+	// same as n-1, but add last char at every index
+	// length is length of smaller list of permutations * str
+	// for str length, add old permutations with c at index 0 up to n
+	// um idk how to do that efficiently so.......
+	public static ArrayList<String> makePermutationsList(String str) {
+		int n = str.length();
+		ArrayList<String> permutations = new ArrayList<>();
+		if (n <= 1) {
+			permutations.add(str);
+			return permutations;
+		}
+		char last = str.charAt(n - 1);
+		ArrayList<String> oldPermutations = makePermutationsList(str.substring(0, n-1));
+		permutations = new ArrayList<>(oldPermutations.size()*n);
+		for (int i = 0; i < n; i++) {
+			permutations.addAll(oldPermutations);
 		}
 
 	}
-
-	// // List contains a single String to start.
-	// // Prints all the permutations of str on separate lines
-	// // You may assume that str has no repeated characters
-	// // For example, permute("abc") could print out "abc", "acb", "bac", "bca",
-	// // "cab", "cba"
-	// // Order is your choice
-	// public static void printPermutations(String str) {
-
-	// }
 
 	// // Performs a mergeSort on the given array of ints
 	// // Precondition: you may assume there are NO duplicates!!!
