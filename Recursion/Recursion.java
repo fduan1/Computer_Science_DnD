@@ -131,7 +131,6 @@ public class Recursion {
 		for (int i = 0; i < n; i++) {
 			permutations.addAll(oldPermutations);
 		}
-
 	}
 
 	// // Performs a mergeSort on the given array of ints
