@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Recursion {
 
 	// Prints the value of every node in the singly linked list with the given head,
@@ -71,14 +74,26 @@ public class Recursion {
 	// // 1) what the helper method does/returns
 	// // 2) your description must include role of each parameter in the helper method
 
-	// // Prints all the subsets of str on separate lines
-	// // You may assume that str has no repeated characters
-	// // For example, subsets("abc") would print out "", "a", "b", "c", "ab", "ac",
-	// // "bc", "abc"
-	// // Order is your choice
-	// public static void printSubsets(String str) {
+	// Prints all the subsets of str on separate lines
+	// You may assume that str has no repeated characters
+	// For example, subsets("abc") would print out "", "a", "b", "c", "ab", "ac",
+	// "bc", "abc"
+	// Order is your choice
+	public static void printSubsets(String str) {
+		ArrayList<String> subsets = new ArrayList<>();
 
-	// }
+	}
+
+	public static ArrayList<String> makeSubsetList(String str) {
+		int n = str.length();
+		ArrayList<String> subsets = new ArrayList<>();
+		if (n <= 1) {
+			subsets.add("");
+			subsets.add("str");
+			return subsets;
+		}
+
+	}
 
 	// // List contains a single String to start.
 	// // Prints all the permutations of str on separate lines
