@@ -116,7 +116,7 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
-
+		System.out.println(makePermutationsList(str).toString());
 	}
 
 	// same as n-1, but add last char at every index
@@ -132,21 +132,51 @@ public class Recursion {
 		}
 		char last = str.charAt(n - 1);
 		ArrayList<String> oldPermutations = makePermutationsList(str.substring(0, n - 1));
-		permutations = new ArrayList<>(oldPermutations.size() * n);
 		for (int j = 0; j < oldPermutations.size(); j++) {
 			for (int i = 0; i < n; i++) {
-				String newPermutation = oldPermutations.get(j).
-				permutations.add()
+				String newPermutationFront = oldPermutations.get(j).substring(0, i);
+				String newPermutationBack = oldPermutations.get(j).substring(i);
+				permutations.add(newPermutationFront + last + newPermutationBack);
 			}
 		}
+		return permutations;
+	}
+
+	// Performs a mergeSort on the given array of ints
+	// Precondition: you may assume there are NO duplicates!!!
+	public static void mergeSort(int[] ints) {
+
 
 	}
 
-	// // Performs a mergeSort on the given array of ints
-	// // Precondition: you may assume there are NO duplicates!!!
-	// public static void mergeSort(int[] ints) {
+	public static ArrayList<Integer> sort(int[] ints) {
+		int[] first = new int[ints.length/2];
+		int[] second = new int[ints.length/2];
+		for (int i = 0; i < first.length; i++) {
+			first[i] = ints[i];
+			second[i] = ints[first.length + i];
+		}
+		sort(first);
+		sort(second);
+	}
 
-	// }
+	// this merges 2 seperate sorted arrays into a single, larger, sorted array
+	// not recursion
+	public static ArrayList<Integer> merge(int[] first, int[] second) {
+		ArrayList<Integer> mergedList = new ArrayList<Integer>();
+		int j = 0;
+		for (int i = 0; i < first.length; i++) {
+			if (first[i] < second[j]) {
+				mergedList.add(first[i]);
+				j--;
+			} else {
+				mergedList.add(second[j]);
+				i--;
+			}
+			j++;
+		}
+		return mergedList;
+	}
 
 	// // Performs a quickSort on the given array of ints
 	// // Use the middle element (index n/2) as the pivot
