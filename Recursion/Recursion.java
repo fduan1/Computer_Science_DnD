@@ -40,7 +40,8 @@ public class Recursion {
 	// {1, 3}, {1, 4}, {2, 4}
 	// The other subsets of 1,2,3,4 that DO contain consecutive integers are
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
-	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4}, {2,5}, {2,6},
+	// n=6: {}, {1}, {2}, {3}, {4}, {5}, {6}, {1, 3}, {1, 4}, {1,5}, {1,6}, {2, 4},
+	// {2,5}, {2,6},
 	// {3,5}, {3,6}, {4,6}, {1,3,5}, {1,4,6}, {2,4,6}
 	// 2 to 5 to 8 to 13 to 20
 	// Precondition: n > 0
@@ -74,7 +75,8 @@ public class Recursion {
 	// // Everything below this line requires a recursive helper method
 	// // Any recursive helper method you write MUST have a comment describing:
 	// // 1) what the helper method does/returns
-	// // 2) your description must include role of each parameter in the helper method
+	// // 2) your description must include role of each parameter in the helper
+	// method
 
 	// Prints all the subsets of str on separate lines
 	// You may assume that str has no repeated characters
@@ -86,7 +88,9 @@ public class Recursion {
 	}
 
 	// returns a list of all subsets
-	// n is the length of the string entered,subsets is the return and starts as an exact copy of the earlier shorter version, new sets is the new sets added to the total from the additional char (last)
+	// n is the length of the string entered,subsets is the return and starts as an
+	// exact copy of the earlier shorter version, new sets is the new sets added to
+	// the total from the additional char (last)
 	public static ArrayList<String> makeSubsetList(String str) {
 		int n = str.length();
 		ArrayList<String> subsets = new ArrayList<>();
@@ -112,8 +116,9 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
-		
+
 	}
+
 	// same as n-1, but add last char at every index
 	// length is length of smaller list of permutations * str
 	// for str length, add old permutations with c at index 0 up to n
@@ -126,11 +131,15 @@ public class Recursion {
 			return permutations;
 		}
 		char last = str.charAt(n - 1);
-		ArrayList<String> oldPermutations = makePermutationsList(str.substring(0, n-1));
-		permutations = new ArrayList<>(oldPermutations.size()*n);
-		for (int i = 0; i < n; i++) {
-			permutations.addAll(oldPermutations);
+		ArrayList<String> oldPermutations = makePermutationsList(str.substring(0, n - 1));
+		permutations = new ArrayList<>(oldPermutations.size() * n);
+		for (int j = 0; j < oldPermutations.size(); j++) {
+			for (int i = 0; i < n; i++) {
+				String newPermutation = oldPermutations.get(j).
+				permutations.add()
+			}
 		}
+
 	}
 
 	// // Performs a mergeSort on the given array of ints
