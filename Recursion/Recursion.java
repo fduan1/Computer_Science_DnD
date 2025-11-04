@@ -145,35 +145,57 @@ public class Recursion {
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
-
-
+		int[] sorted = sort(ints);
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = sorted[i];
+		}
 	}
 
-	public static ArrayList<Integer> sort(int[] ints) {
-		int[] first = new int[ints.length/2];
-		int[] second = new int[ints.length/2];
+	public static int[] sort(int[] ints) {
+		if (ints.length <= 1) {
+			return ints;
+		}
+		int[] first = new int[ints.length / 2];
+		if (ints.length % 2 == 1) {
+			first = new int[ints.length / 2 + 1];
+		}
+		int[] second = new int[ints.length / 2];
 		for (int i = 0; i < first.length; i++) {
 			first[i] = ints[i];
-			second[i] = ints[first.length + i];
+			if (i != second.length) {
+				second[i] = ints[first.length + i];
+			}
 		}
-		sort(first);
-		sort(second);
+		return merge(sort(first), sort(second));
 	}
 
 	// this merges 2 seperate sorted arrays into a single, larger, sorted array
 	// not recursion
-	public static ArrayList<Integer> merge(int[] first, int[] second) {
-		ArrayList<Integer> mergedList = new ArrayList<Integer>();
+	public static int[] merge(int[] first, int[] second) {
+		int[] mergedList = new int[first.length + second.length];
 		int j = 0;
-		for (int i = 0; i < first.length; i++) {
+		int listPosition = 0;
+		for (int i = 0; i < first.length; listPosition++) {
 			if (first[i] < second[j]) {
-				mergedList.add(first[i]);
+				mergedList[listPosition] = first[i];
 				j--;
 			} else {
-				mergedList.add(second[j]);
+				mergedList[listPosition] = second[j];
 				i--;
 			}
 			j++;
+			i++;
+			if (j >= second.length) {
+				for (int n = 1; n <= first.length - i; n++) {
+					mergedList[mergedList.length - n] = first[first.length - n];
+				}
+				break;
+			} else if (i >= first.length) {
+				for (int n = 1; n <= second.length - j; n++) {
+					mergedList[mergedList.length - n] = second[second.length - n];
+				}
+				break;
+			}
 		}
 		return mergedList;
 	}
