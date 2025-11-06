@@ -151,6 +151,7 @@ public class Recursion {
 		}
 	}
 
+	// this splits up an int array in 2 and uses merge() to recombine into sorteds
 	public static int[] sort(int[] ints) {
 		if (ints.length <= 1) {
 			return ints;
@@ -200,22 +201,43 @@ public class Recursion {
 		return mergedList;
 	}
 
-	// // Performs a quickSort on the given array of ints
-	// // Use the middle element (index n/2) as the pivot
-	// // Precondition: you may assume there are NO duplicates!!!
-	// public static void quickSort(int[] ints) {
+	// Performs a quickSort on the given array of ints
+	// Use the middle element (index n/2) as the pivot
+	// Precondition: you may assume there are NO duplicates!!!
+	public static void quickSort(int[] ints) {
 
-	// }
+	}
 
-	// // Prints a sequence of moves (one on each line)
-	// // to complete a Towers of Hanoi problem:
-	// // disks start on tower 0 and must end on tower 2.
-	// // The towers are number 0, 1, 2, and each move should be of
-	// // the form "1 -> 2", meaning "take the top disk of tower 1 and
-	// // put it on tower 2" etc.
-	// public static void solveHanoi(int startingDisks) {
 
-	// }
+
+	// Prints a sequence of moves (one on each line)
+	// to complete a Towers of Hanoi problem:
+	// disks start on tower 0 and must end on tower 2.
+	// The towers are number 0, 1, 2, and each move should be of
+	// the form "1 -> 2", meaning "take the top disk of tower 1 and
+	// put it on tower 2" etc.
+	// solve one smaller to middle, move bottom to target, solve one smaller again to target
+	public static void solveHanoi(int startingDisks) {
+		System.out.println(createHanoiSequence(startingDisks, 0, 2, 1));
+	}
+
+	public static ArrayList<String> createHanoiSequence(int startingDisks, int starter, int target, int free) {
+		ArrayList<String> moves = new ArrayList<>();
+		if (startingDisks == 1) {
+			moves.add("" + starter + "->" + target);
+			return moves;
+		}
+		if (startingDisks == 2) {
+			moves.add(starter + "->" + free);
+			moves.add(starter + "->" + target);
+			moves.add(free + "->" + target);
+			return moves;
+		}
+		moves.addAll(createHanoiSequence(startingDisks - 1, starter, free, target));
+		moves.add(starter + "->" + target);
+		moves.addAll(createHanoiSequence(startingDisks - 1, free, target, starter));
+		return moves;
+	}
 
 	// // You are partaking in a scavenger hunt!
 	// // You've gotten a secret map to find many of the more difficult

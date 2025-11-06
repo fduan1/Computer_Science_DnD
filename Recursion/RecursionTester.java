@@ -34,5 +34,8 @@ public class RecursionTester {
             System.out.print(list[i]);
         }
         System.out.println();
+
+        Recursion.solveHanoi(5);
+        System.out.println(Recursion.createHanoiSequence(5, 0, 2, 1).size());
     }
 }
