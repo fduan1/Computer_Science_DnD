@@ -205,7 +205,48 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
+		int[] sorted = quickSort(ints.length / 2, ints);
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = sorted[i];
+		}
+	}
 
+	public static int[] quickSort(int pivotLocation, int[] ints) {
+		int pivot = ints[pivotLocation];
+		// base cases
+		if (ints.length <= 1) {
+			return ints;
+		}
+		if (ints.length == 2) {
+			return combineWithPivot(pivotLocation, new int[0], ints);
+		}
+
+		// split
+		ArrayList<Integer> firstInts = new ArrayList<>();
+		ArrayList<Integer> secondInts = new ArrayList<>();
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] < pivot) {
+				firstInts.add(ints[i]);
+			}
+			if (ints[i] > pivot) {
+				secondInts.add(ints[i]);
+			}
+		}
+		int[] first = firstInts.toArray(int[])
+
+		return combineWithPivot(pivot, quickSort(first.length / 2, first), second);
+	}
+
+	public static int[] combineWithPivot(int pivot, int[] first, int[] second) {
+		int[] mergedList = new int[first.length + second.length + 1];
+		for (int i = 0; i < first.length; i++) {
+			mergedList[i] = first[i];
+		}
+		mergedList[first.length] = pivot;
+		for (int i = 0; i < second.length; i++) {
+			mergedList[first.length + i] = second[i];
+		}
+		return mergedList;
 	}
 
 
@@ -221,7 +262,9 @@ public class Recursion {
 		System.out.println(createHanoiSequence(startingDisks, 0, 2, 1));
 	}
 
-	public static ArrayList<String> createHanoiSequence(int startingDisks, int starter, int target, int free) {
+	// creates an arraylist of the hanoir sequence with tower inputs of start, target, free
+	public static ArrayList<String> createHanoiSequence(int startingDisks, int starter, int target,
+			int free) {
 		ArrayList<String> moves = new ArrayList<>();
 		if (startingDisks == 1) {
 			moves.add("" + starter + "->" + target);
@@ -239,27 +282,52 @@ public class Recursion {
 		return moves;
 	}
 
-	// // You are partaking in a scavenger hunt!
-	// // You've gotten a secret map to find many of the more difficult
-	// // items, but they are only available at VERY specific times at
-	// // specific places. You have an array, times[], that lists at which
-	// // MINUTE an item is available. Times is sorted in ascending order.
-	// // Items in the ScavHunt are worth varying numbers of points.
-	// // You also have an array, points[], same length as times[],
-	// // that lists how many points each of the corresponding items is worth.
-	// // Problem is: to get from one location to the other takes 5 minutes,
-	// // so if there is an item, for example, available at time 23 and another
-	// // at time 27, it's just not possible for you to make it to both: you'll
-	// // have to choose!
-	// // (but you COULD make it from a place at time 23 to another at time 28)
-	// // Write a method that returns the maximum POINTS you can get.
-	// // For example, if times = [3, 7, 9]
-	// // and points = [10, 15, 10]
-	// // Then the best possible result is getting the item at time 3 and the one at
-	// // time 9
-	// // for a total of 20 points, so it would return 20.
-	// public static int scavHunt(int[] times, int[] points) {
+	// You are partaking in a scavenger hunt!
+	// You've gotten a secret map to find many of the more difficult
+	// items, but they are only available at VERY specific times at
+	// specific places. You have an array, times[], that lists at which
+	// MINUTE an item is available. Times is sorted in ascending order.
+	// Items in the ScavHunt are worth varying numbers of points.
+	// You also have an array, points[], same length as times[],
+	// that lists how many points each of the corresponding items is worth.
+	// Problem is: to get from one location to the other takes 5 minutes,
+	// so if there is an item, for example, available at time 23 and another
+	// at time 27, it's just not possible for you to make it to both: you'll
+	// have to choose!
+	// (but you COULD make it from a place at time 23 to another at time 28)
+	// Write a method that returns the maximum POINTS you can get.
+	// For example, if times = [3, 7, 9]
+	// and points = [10, 15, 10]
+	// Then the best possible result is getting the item at time 3 and the one at
+	// time 9
+	// for a total of 20 points, so it would return 20.
+	public static int scavHunt(int[] times, int[] points) {
+		return findMaxReward(0, times, points);
+	}
 
-	// }
+	public static int findMaxReward(int startingIndex, int[] times, int[] points) {
+		if (startingIndex == times.length - 1) {
+			return points[times.length - 1];
+		}
+		if (startingIndex >= times.length) {
+			return 0;
+		}
+		int nextIndex = startingIndex + 5;
+		for (int i = startingIndex; i < nextIndex; i++) {
+			if (i >= times.length) {
+				break;
+			}
+			if (times[i] >= times[startingIndex] + 5) {
+				nextIndex = i;
+			}
+		}
+		int chosen = points[startingIndex] + findMaxReward(nextIndex, times, points);
+		int notChosen = findMaxReward(startingIndex + 1, times, points);
+		if (chosen > notChosen) {
+			return chosen;
+		} else {
+			return notChosen;
+		}
+	}
 
 }

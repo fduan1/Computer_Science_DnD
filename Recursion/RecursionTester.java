@@ -1,12 +1,14 @@
 public class RecursionTester {
     public static void main(String[] args) {
-        ListNode head = new ListNode("a", new ListNode("b", new ListNode("c", new ListNode("d", new ListNode("e")))));
+        ListNode head = new ListNode("a",
+                new ListNode("b", new ListNode("c", new ListNode("d", new ListNode("e")))));
 
         Recursion.printListInReverse(head);
         System.out.println();
         System.out.println();
 
-        String[][] grid = {{"a", "b", "c", "d", "v"}, {"i", "v", "i", "i", "e"}, {"v", "b", "v", "v", "d"}, {"a", "b", "c", "d", "e"}};
+        String[][] grid = {{"a", "b", "c", "d", "v"}, {"i", "v", "i", "i", "e"},
+                {"v", "b", "v", "v", "d"}, {"a", "b", "c", "d", "e"}};
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 System.out.print(grid[i][j] + ", ");
@@ -37,5 +39,15 @@ public class RecursionTester {
 
         Recursion.solveHanoi(5);
         System.out.println(Recursion.createHanoiSequence(5, 0, 2, 1).size());
+        int[] times = {3, 7, 8, 13, 14};
+        int[] points = {100, 15, 15, 80, 10};
+        System.out.println(Recursion.scavHunt(times, points));
+
+        int[] listCopy = {3, 1, 4, 6, -2, 0, 7};
+        Recursion.quickSort(listCopy);
+        for (int i = 0; i < listCopy.length; i++) {
+            System.out.print(listCopy[i]);
+        }
+        System.out.println();
     }
 }
