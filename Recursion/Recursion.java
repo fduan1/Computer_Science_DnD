@@ -206,21 +206,14 @@ public class Recursion {
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
 		int[] sorted = quickSort(ints.length / 2, ints);
-		for (int i = 0; i < ints.length; i++) {
-			ints[i] = sorted[i];
-		}
 	}
 
-	public static int[] quickSort(int pivotLocation, int[] ints) {
+	public static ArrayList<Integer> quickSort(int pivotLocation, int[] ints) {
 		int pivot = ints[pivotLocation];
 		// base cases
 		if (ints.length <= 1) {
-			return ints;
+			return new ArrayList<Integer>().addAll(ints);
 		}
-		if (ints.length == 2) {
-			return combineWithPivot(pivotLocation, new int[0], ints);
-		}
-
 		// split
 		ArrayList<Integer> firstInts = new ArrayList<>();
 		ArrayList<Integer> secondInts = new ArrayList<>();
@@ -232,20 +225,15 @@ public class Recursion {
 				secondInts.add(ints[i]);
 			}
 		}
-		int[] first = firstInts.toArray(int[])
-
-		return combineWithPivot(pivot, quickSort(first.length / 2, first), second);
+		return combineWithPivot(pivot, quickSort(first.size() / 2, first), second);
 	}
 
-	public static int[] combineWithPivot(int pivot, int[] first, int[] second) {
-		int[] mergedList = new int[first.length + second.length + 1];
-		for (int i = 0; i < first.length; i++) {
-			mergedList[i] = first[i];
-		}
-		mergedList[first.length] = pivot;
-		for (int i = 0; i < second.length; i++) {
-			mergedList[first.length + i] = second[i];
-		}
+	public static ArrayList<Integer> combineWithPivot(int pivot, ArrayList<Integer> first,
+			ArrayList<Integer> second) {
+		ArrayList<Integer> mergedList = new ArrayList<>();
+		mergedList.addAll(first);
+		mergedList.add(pivot);
+		mergedList.addAll(second);
 		return mergedList;
 	}
 
