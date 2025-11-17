@@ -30,6 +30,7 @@ public class RecursionTester {
         Recursion.printSubsets("abcd");
 
         Recursion.printPermutations("abcd");
+
         int[] list = {3, 1, 4, 6, -2, 0, 7};
         Recursion.mergeSort(list);
         for (int i = 0; i < list.length; i++) {

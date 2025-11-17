@@ -7,10 +7,10 @@ public class Recursion {
 	// but in reverse
 	public static void printListInReverse(ListNode head) {
 		if (head.getNext() == null) {
-			System.out.print(head.getValue());
+			System.out.println(head.getValue());
 		} else {
 			printListInReverse(head.getNext());
-			System.out.print(head.getValue());
+			System.out.println(head.getValue());
 		}
 	}
 
@@ -25,8 +25,8 @@ public class Recursion {
 	public static void infect(String[][] grid, int r, int c) {
 		if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
 			;
-		} else if (!grid[r][c].equals("v") && !grid[r][c].equals("i")) {
-			grid[r][c] = "i";
+		} else if (!grid[r][c].equals("vaccinated") && !grid[r][c].equals("infected")) {
+			grid[r][c] = "infected";
 			infect(grid, r + 1, c);
 			infect(grid, r - 1, c);
 			infect(grid, r, c + 1);
@@ -205,27 +205,39 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
-		int[] sorted = quickSort(ints.length / 2, ints);
+		ArrayList<Integer> intsList = new ArrayList<>();
+		for (int i = 0; i < ints.length; i++) {
+			intsList.add(ints[i]);
+		}
+		intsList = quickSort(ints.length/2, intsList);
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = intsList.get(i);
+		}
 	}
 
-	public static ArrayList<Integer> quickSort(int pivotLocation, int[] ints) {
-		int pivot = ints[pivotLocation];
+	public static ArrayList<Integer> quickSort(int pivotLocation, ArrayList<Integer> ints) {
+		
 		// base cases
-		if (ints.length <= 1) {
-			return new ArrayList<Integer>().addAll(ints);
+		if (ints.size() <= 1) {
+			ArrayList<Integer> base = new ArrayList<>();
+			for(int i = 0; i < ints.size(); i++) {
+				base.add(ints.get(i));
+			}
+			return base;
 		}
 		// split
-		ArrayList<Integer> firstInts = new ArrayList<>();
-		ArrayList<Integer> secondInts = new ArrayList<>();
-		for (int i = 0; i < ints.length; i++) {
-			if (ints[i] < pivot) {
-				firstInts.add(ints[i]);
+		int pivot = ints.get(pivotLocation);
+		ArrayList<Integer> first = new ArrayList<>();
+		ArrayList<Integer> second = new ArrayList<>();
+		for (int i = 0; i < ints.size(); i++) {
+			if (ints.get(i) < pivot) {
+				first.add(ints.get(i));
 			}
-			if (ints[i] > pivot) {
-				secondInts.add(ints[i]);
+			if (ints.get(i) > pivot) {
+				second.add(ints.get(i));
 			}
 		}
-		return combineWithPivot(pivot, quickSort(first.size() / 2, first), second);
+		return combineWithPivot(pivot, quickSort(first.size() / 2, first), quickSort(second.size() / 2, second));
 	}
 
 	public static ArrayList<Integer> combineWithPivot(int pivot, ArrayList<Integer> first,
@@ -247,7 +259,10 @@ public class Recursion {
 	// put it on tower 2" etc.
 	// solve one smaller to middle, move bottom to target, solve one smaller again to target
 	public static void solveHanoi(int startingDisks) {
-		System.out.println(createHanoiSequence(startingDisks, 0, 2, 1));
+		ArrayList<String> steps = createHanoiSequence(startingDisks, 0, 2, 1);
+		for (int i = 0; i < steps.size(); i++) {
+			System.out.println(steps.get(i));
+		}
 	}
 
 	// creates an arraylist of the hanoir sequence with tower inputs of start, target, free
