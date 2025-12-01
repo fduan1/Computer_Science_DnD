@@ -84,7 +84,10 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 	public static void printSubsets(String str) {
-		System.out.println(makeSubsetList(str));
+		ArrayList<String> subsets = makeSubsetList(str);
+		for (int i = 0; i < subsets.size(); i++) {
+			System.out.println(subsets.get(i));
+		}
 	}
 
 	// returns a list of all subsets
@@ -116,7 +119,10 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 	public static void printPermutations(String str) {
-		System.out.println(makePermutationsList(str).toString());
+		ArrayList<String> permutations = makePermutationsList(str);
+		for (int i = 0; i < permutations.size(); i++) {
+			System.out.println(permutations.get(i));
+		}
 	}
 
 	// same as n-1, but add last char at every index
@@ -270,17 +276,17 @@ public class Recursion {
 			int free) {
 		ArrayList<String> moves = new ArrayList<>();
 		if (startingDisks == 1) {
-			moves.add("" + starter + "->" + target);
+			moves.add("" + starter + " -> "  + target);
 			return moves;
 		}
 		if (startingDisks == 2) {
-			moves.add(starter + "->" + free);
-			moves.add(starter + "->" + target);
-			moves.add(free + "->" + target);
+			moves.add(starter + " -> " + free);
+			moves.add(starter + " -> "  + target);
+			moves.add(free + " -> "  + target);
 			return moves;
 		}
 		moves.addAll(createHanoiSequence(startingDisks - 1, starter, free, target));
-		moves.add(starter + "->" + target);
+		moves.add(starter + " -> " + target);
 		moves.addAll(createHanoiSequence(startingDisks - 1, free, target, starter));
 		return moves;
 	}
