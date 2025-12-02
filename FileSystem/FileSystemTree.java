@@ -19,6 +19,6 @@ public class FileSystemTree {
      */
     public FolderNode getRoot() {
         // TODO: return the root directory
-        return null;
+        return root;
     }
 }
