@@ -48,6 +48,21 @@ public class Navigator {
      */
     private void cd(String[] args) {
         // TODO: implement directory navigation
+        if (args[0].equals(".")) {
+            return;
+        }
+        if (args[0].equals("..")) {
+            currentDirectory = currentDirectory.getParent();
+        } else {
+            if (args[0].charAt(0) == '/') {
+                if (fileSystem.getRoot().containsNameRecursive(args[0].substring(1))) {
+                    currentDirectory = (FolderNode)fileSystem.getRoot().getChildByName(args[0]);
+                }
+            }
+            if (currentDirectory.containsNameRecursive(args[0])) {
+                currentDirectory = (FolderNode)currentDirectory.getChildByName(args[0]);
+            }
+        }
     }
 
     /**

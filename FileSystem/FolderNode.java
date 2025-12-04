@@ -101,14 +101,19 @@ public class FolderNode extends FileSystemNode {
     @Override
     public int getHeight() {
         // TODO: compute the maximum height among children; empty folders have value 0
-        if (children.size() == 0) {
+        // help how does this work??
+        if (children.isEmpty()) {
             return 0;
         }
+        int height = 0;
         for (int i = 0; i < children.size(); i++) {
-            int height = 1;
+            int temp = 0;
             if (children.get(i).isFolder()) {
                 FileSystemNode child = children.get(i);
-                height += child.getHeight();
+                temp += child.getHeight();
+            }
+            if (temp >= height) {
+                height = temp;
             }
         }
         return height;
@@ -118,12 +123,24 @@ public class FolderNode extends FileSystemNode {
     public int getSize() {
         // TODO: sum the sizes of all files contained in this directory and its
         // descendants
-        return 0;
+        int size = 0;
+        for (int i = 0; i < children.size(); i++) {
+            size += children.get(i).getSize();
+        }
+        return size;
     }
 
     @Override
     public int getTotalNodeCount() {
         // TODO: count this directory plus all descendant files and folders
-        return 0;
+        int nodeCount = 1;
+        for (int i = 0; i < children.size(); i++) {
+            if (isFolder()) {
+                nodeCount += children.get(i).getTotalNodeCount();
+            } else {
+                nodeCount++;
+            }
+        }
+        return nodeCount;
     }
 }
