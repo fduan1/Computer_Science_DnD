@@ -101,7 +101,17 @@ public class FolderNode extends FileSystemNode {
     @Override
     public int getHeight() {
         // TODO: compute the maximum height among children; empty folders have value 0
-        return 0;
+        if (children.size() == 0) {
+            return 0;
+        }
+        for (int i = 0; i < children.size(); i++) {
+            int height = 1;
+            if (children.get(i).isFolder()) {
+                FileSystemNode child = children.get(i);
+                height += child.getHeight();
+            }
+        }
+        return height;
     }
 
     @Override
