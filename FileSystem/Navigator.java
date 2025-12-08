@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -41,10 +42,10 @@ public class Navigator {
     /**
      * Changes the current directory based on a single path argument.
      * Behavior should mirror typical Unix shells:
-     *   - "."  refers to the current directory (no change).
-     *   - ".." moves to the parent directory (if one exists).
-     *   - Paths starting with "/" are interpreted from the root directory.
-     *   - Other paths are interpreted relative to the current directory.
+     * - "." refers to the current directory (no change).
+     * - ".." moves to the parent directory (if one exists).
+     * - Paths starting with "/" are interpreted from the root directory.
+     * - Other paths are interpreted relative to the current directory.
      */
     private void cd(String[] args) {
         // TODO: implement directory navigation
@@ -53,16 +54,19 @@ public class Navigator {
         }
         if (args[0].equals("..")) {
             currentDirectory = currentDirectory.getParent();
-        } else {
-            if (args[0].charAt(0) == '/') {
-                if (fileSystem.getRoot().containsNameRecursive(args[0].substring(1))) {
-                    currentDirectory = (FolderNode)fileSystem.getRoot().getChildByName(args[0]);
-                }
-            }
-            if (currentDirectory.containsNameRecursive(args[0])) {
-                currentDirectory = (FolderNode)currentDirectory.getChildByName(args[0]);
-            }
+            return;
         }
+        int splitLocation = args[0].indexOf('/');
+        if (args[0].charAt(0) == '/') {
+            if (fileSystem.getRoot().containsNameRecursive(args[0].substring(1))) {
+                currentDirectory = fileSystem.getRoot();
+                this.cd(new String[] {
+                        "." + currentDirectory.getChildByName(args[0].substring(splitLocation)).getName() });
+            }
+            return;
+        }
+        currentDirectory = (FolderNode) currentDirectory.getChildByName(args[0].substring(splitLocation));
+        // wtfffff
     }
 
     /**
@@ -71,24 +75,44 @@ public class Navigator {
      */
     private void ls(String[] args) {
         // TODO: print names of all child nodes of currentDirectory
+        List<FileSystemNode> children = currentDirectory.getChildren();
+        for (FileSystemNode child : children) {
+            System.out.println(child);
+        }
     }
 
     /**
      * Creates a new directory inside the current directory using the provided name.
      */
     private void mkdir(String[] args) {
-        // TODO: read folder name from args and delegate to currentDirectory.addFolder(...)
+        // TODO: read folder name from args and delegate to
+        // currentDirectory.addFolder(...)
+        currentDirectory.addFolder(args[0]);
     }
 
     /**
      * Creates a new file inside the current directory with a given name and size.
      */
     private void touch(String[] args) {
-        // TODO: read file name and size from args and delegate to currentDirectory.addFile(...)
+        // TODO: read file name and size from args and delegate to
+        // currentDirectory.addFile(...)
+        int size = parseInt(args[1], 0, 0);
+        currentDirectory.addFile(args[0], size);
+    }
+
+    // ????? im so confused
+    private int parseInt(String str, int power, int integer) {
+        if (str.length() == 0) {
+            return integer;
+        }
+        char last = str.charAt(str.length() - 1);
+        integer += (last - '0') * power;
+        return parseInt(str.substring(0, str.length() - 1), power * 10, integer);
     }
 
     /**
-     * Searches the current directory and its descendants for nodes with a given name
+     * Searches the current directory and its descendants for nodes with a given
+     * name
      * and prints their paths.
      */
     private void find(String[] args) {
@@ -96,7 +120,8 @@ public class Navigator {
     }
 
     /**
-     * Prints the absolute path of the current directory, from the root to this node.
+     * Prints the absolute path of the current directory, from the root to this
+     * node.
      */
     private void pwd(String[] args) {
         // TODO: use currentDirectory.toString() or similar path builder
@@ -116,6 +141,7 @@ public class Navigator {
      */
     private void count(String[] args) {
         // TODO: call a counting method on currentDirectory
+        System.out.println(currentDirectory.getTotalNodeCount());
     }
 
     /**
@@ -123,6 +149,7 @@ public class Navigator {
      */
     private void size(String[] args) {
         // TODO: call a size-calculation method on currentDirectory
+        System.out.println(currentDirectory.getSize());
     }
 
     /**
@@ -131,6 +158,7 @@ public class Navigator {
      */
     private void depth(String[] args) {
         // TODO: use a depth method on currentDirectory
+        System.out.println(currentDirectory.getDepth());
     }
 
     /**
@@ -140,6 +168,7 @@ public class Navigator {
      */
     private void height(String[] args) {
         // TODO: use a height method on currentDirectory
+        System.out.println(currentDirectory.getHeight());
     }
 
     /**
@@ -154,21 +183,21 @@ public class Navigator {
      * then forwarding control to the appropriate helper method.
      *
      * Example inputs and how they are interpreted:
-     *   "ls"
-     *       -> command: "ls"
-     *          args: []
+     * "ls"
+     * -> command: "ls"
+     * args: []
      *
-     *   "mkdir docs"
-     *       -> command: "mkdir"
-     *          args: ["docs"]
+     * "mkdir docs"
+     * -> command: "mkdir"
+     * args: ["docs"]
      *
-     *   "touch notes.txt 100"
-     *       -> command: "touch"
-     *          args: ["notes.txt", "100"]
+     * "touch notes.txt 100"
+     * -> command: "touch"
+     * args: ["notes.txt", "100"]
      *
-     *   "cd .."
-     *       -> command: "cd"
-     *          args: [".."]
+     * "cd .."
+     * -> command: "cd"
+     * args: [".."]
      */
     public void processUserInputString(String line) {
         if (line == null || line.trim().isEmpty()) {
