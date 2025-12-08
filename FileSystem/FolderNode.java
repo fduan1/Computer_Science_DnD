@@ -56,7 +56,7 @@ public class FolderNode extends FileSystemNode {
         if (!containsNameRecursive(fileName)) {
             return false;
         }
-        children.add(new FileNode(this, fileName, size));
+        children.add(new FileNode(fileName, this, size));
         return true;
     }
 

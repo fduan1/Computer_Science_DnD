@@ -117,6 +117,23 @@ public class Navigator {
      */
     private void find(String[] args) {
         // TODO: use recursive search starting at currentDirectory
+        if (args[0].equals(currentDirectory.getName())) {
+            System.out.println(currentDirectory + "–———");
+        }
+        for (FileSystemNode child : currentDirectory.getChildren()) {
+            System.out.println("|");
+            System.out.print("|————" + child);
+            if (child.isFolder()) {
+                FolderNode folderChild = (FolderNode) child;
+                System.out.print("————");
+                for (FileSystemNode childPrime : folderChild.getChildren()) {
+                    // recursive helper method actually
+                }
+            }
+
+            System.out.println("|");
+        }
+
     }
 
     /**
@@ -125,6 +142,7 @@ public class Navigator {
      */
     private void pwd(String[] args) {
         // TODO: use currentDirectory.toString() or similar path builder
+
     }
 
     /**
