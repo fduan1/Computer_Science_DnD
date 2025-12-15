@@ -80,7 +80,6 @@ public class FolderNode extends FileSystemNode {
         for (int i = 0; i < children.size(); i++) {
             FileSystemNode child = children.get(i);
             if (getChildByName(searchName) != null) {
-                System.out.println(child);
                 return true;
             }
             if (child.isFolder()) {
@@ -130,10 +129,11 @@ public class FolderNode extends FileSystemNode {
         // TODO: count this directory plus all descendant files and folders
         int nodeCount = 1;
         for (int i = 0; i < children.size(); i++) {
-            nodeCount++;
             FileSystemNode child = children.get(i);
             if (child.isFolder()) {
                 nodeCount += child.getTotalNodeCount();
+            } else {
+                nodeCount++;
             }
         }
         return nodeCount;

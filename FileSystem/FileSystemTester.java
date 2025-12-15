@@ -8,10 +8,12 @@ import java.io.PrintStream;
  * what it's doing plus the observed behavior.or
  *
  * And also assumes (based on our design):
- *  - FileSystemTree#getRoot() returns a non-null FolderNode
- *  - FolderNode has addFolder(String) and addFile(String, int) that return boolean
- *  - FileSystemNode has getDepth(), getHeight(), getSize(), getTotalNodeCount()
- *  - Navigator has processUserInputString(String) which prints results to System.out
+ * - FileSystemTree#getRoot() returns a non-null FolderNode
+ * - FolderNode has addFolder(String) and addFile(String, int) that return
+ * boolean
+ * - FileSystemNode has getDepth(), getHeight(), getSize(), getTotalNodeCount()
+ * - Navigator has processUserInputString(String) which prints results to
+ * System.out
  */
 public class FileSystemTester {
 
@@ -37,13 +39,18 @@ public class FileSystemTester {
         boolean addedSrc = root.addFolder("src");
         boolean addedMainJava = root.addFile("main.java", 120);
         boolean addedReadme = root.addFile("README.md", 80);
+        boolean read = ((FolderNode) root.getChildByName("docs")).addFile("readme.txt", 80);
+        boolean test = ((FolderNode) root.getChildByName("docs")).addFolder("test");
 
         int depthRoot = root.getDepth();
         int heightRoot = root.getHeight();
         int sizeRoot = root.getSize();
         int totalNodesRoot = root.getTotalNodeCount();
-        
-        
+
         Navigator navigateTree = new Navigator(tree);
+        navigateTree.processUserInputString("find readme.txt");
+        
+        navigateTree.processUserInputString("cd /docs/test");
+
     }
 }
