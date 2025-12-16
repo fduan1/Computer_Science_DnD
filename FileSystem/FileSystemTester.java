@@ -41,6 +41,8 @@ public class FileSystemTester {
         boolean addedReadme = root.addFile("README.md", 80);
         boolean read = ((FolderNode) root.getChildByName("docs")).addFile("readme.txt", 80);
         boolean test = ((FolderNode) root.getChildByName("docs")).addFolder("test");
+        FolderNode docs = (FolderNode) root.getChildByName("docs");
+        boolean testFile = ((FolderNode)docs.getChildByName("test")).addFile("testFile", 100);
 
         int depthRoot = root.getDepth();
         int heightRoot = root.getHeight();
@@ -49,8 +51,12 @@ public class FileSystemTester {
 
         Navigator navigateTree = new Navigator(tree);
         navigateTree.processUserInputString("find readme.txt");
-        
+        navigateTree.processUserInputString("cd docs");
         navigateTree.processUserInputString("cd /docs/test");
+        navigateTree.processUserInputString("cd ..");
+        navigateTree.processUserInputString("cd ..");
+        navigateTree.processUserInputString("tree");
+
 
     }
 }

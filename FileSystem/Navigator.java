@@ -69,17 +69,18 @@ public class Navigator {
             }
             while (arg.indexOf('/') != -1) {
                 String directChildName = arg.substring(previousSplitLocation + 1);
-                arg = arg.substring(previousSplitLocation + 1);
-                int splitLocation = arg.indexOf('/');
+                arg = directChildName;
+                int splitLocation = directChildName.indexOf('/');
                 if (splitLocation == -1) {
                     currentDirectory = (FolderNode) currentDirectory.getChildByName(arg);
                     return;
                 }
                 directChildName = directChildName.substring(0, splitLocation);
                 previousSplitLocation = splitLocation;
-
                 currentDirectory = (FolderNode) currentDirectory.getChildByName(directChildName);
+
             }
+            currentDirectory = (FolderNode) currentDirectory.getChildByName(arg);
 
         }
 
@@ -174,7 +175,24 @@ public class Navigator {
      */
     private void tree(String[] args) {
         // TODO: implement tree-style printing with indentation and branch characters
+        buildTree(currentDirectory, 0);
+    }
 
+    private void buildTree(FolderNode directory, int depth) {
+        for (FileSystemNode child : directory.getChildren()) {
+            System.out.print("|");
+            for (int i = 0; i < depth-1; i++) {
+                System.out.print("    ");
+            }
+            if (depth != 0){
+                System.out.print("   |");
+            }
+            System.out.println("---" + child.getName());
+            if (child.isFolder()) {
+                FolderNode childCopy = (FolderNode) child;
+                buildTree(childCopy, depth+1);                
+            }
+        }
     }
 
     /**
