@@ -25,6 +25,10 @@ public class MyBST<E extends Comparable<E>> {
 	// Adds value to this BST, unless this tree already holds value.
 	// Returns true if value has been added; otherwise returns false.
 	public boolean add(E value) {
+		if (this.contains(value)) {
+			return false;
+		}
+		
 		return false;
 	}
 
