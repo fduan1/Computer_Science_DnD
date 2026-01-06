@@ -70,26 +70,42 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns the minimum in the tree
 	public E min() {
-		return null;
+		return minHelper(root);
 	}
+
+	public E minHelper(BinaryNode<E> currentNode) {
+		if (!currentNode.hasLeft()) {
+			return currentNode.getValue();
+		}
+		return minHelper(currentNode.getLeft());
+	}
+
 
 	// Returns the maximum in the tree.
 	public E max() {
-		return null;
+		return maxHelper(root);
+	}
+
+	public E maxHelper(BinaryNode<E> currentNode) {
+		if (!currentNode.hasRight()) {
+			return currentNode.getValue();
+		}
+		return minHelper(currentNode.getRight());
 	}
 
 	// Returns a bracket-surrounded, comma separated list of the contents of the nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
-		return "";
+		return stringHelper(root, "");
 	}
 
-	public String stringHelper(String str) {
-		E min = min();
-		BinaryNode<E> currentNode = root;
-		String nodes = str;
-		if (currentNode.getValue().equals(min)) {
+	public String stringHelper(BinaryNode currentNode, String str) {
+		if (currentNode == null) {
+			return str;
+		}
 
+		if (currentNode.hasLeft()) {
+			str += stringHelper(currentNode.getLeft(), str);
 		}
 
 	}
