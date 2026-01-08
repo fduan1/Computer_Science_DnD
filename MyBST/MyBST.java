@@ -1,6 +1,5 @@
 // Implements a BST with BinaryNode nodes
 
-
 public class MyBST<E extends Comparable<E>> {
 
 	private BinaryNode<E> root; // holds the root of this BST
@@ -20,6 +19,16 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		BinaryNode<E> currentNode = root;
+		while (currentNode != null) {
+			if (currentNode.getValue().compareTo(value) == 0) {
+				return true;
+			} else if (currentNode.getValue().compareTo(value) < 0) {
+				currentNode = currentNode.getRight();
+			} else {
+				currentNode = currentNode.getLeft();
+			}
+		}
 		return false;
 	}
 
@@ -37,7 +46,7 @@ public class MyBST<E extends Comparable<E>> {
 		BinaryNode<E> newNode = new BinaryNode<E>(value);
 		BinaryNode<E> node = root;
 		while (node.hasRight() || node.hasLeft()) {
-			if (node.getValue().compareTo(value) > 0) {
+			if (node.getValue().compareTo(value) < 0) {
 				if (!node.hasRight()) {
 					break;
 				}
@@ -49,13 +58,13 @@ public class MyBST<E extends Comparable<E>> {
 				node = node.getLeft();
 			}
 		}
-		if (node.getValue().compareTo(value) > 0) {
-			node.setRight(newNode);
+		if (node.getValue().compareTo(value) < 0) {
 			newNode.setParent(node);
+			node.setRight(newNode);
 			return true;
 		} else {
-			node.setLeft(newNode);
 			newNode.setParent(node);
+			node.setLeft(newNode);
 			return true;
 		}
 	}
@@ -65,7 +74,39 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
-		return false;
+		if (!contains(value)) {
+			return false;
+		}
+		BinaryNode<E> removed = locateNode(value, root);
+		BinaryNode<E> replacementNode = findReplacement(removed);
+		removed.getParent().setLeft(replacementNode);
+		removed.getRight().setParent(replacementNode);
+		replacementNode.setParent(removed.getParent());
+
+		return true;
+
+	}
+
+	public BinaryNode<E> findReplacement(BinaryNode<E> removedNode) {
+		if (!removedNode.hasLeft()) {
+			return removedNode.getRight();
+		}
+		BinaryNode<E> currentNode = removedNode.getLeft();
+		if (!currentNode.hasRight()) {
+			return currentNode;
+		}
+		return currentNode.getRight();
+	}
+
+	public BinaryNode<E> locateNode(E value, BinaryNode<E> starterNode) {
+		BinaryNode<E> currentNode = starterNode;
+		if (currentNode.getValue().compareTo(value) == 0) {
+			return currentNode;
+		} else if (currentNode.getValue().compareTo(value) < 0) {
+			return locateNode(value, starterNode.getRight());
+		} else {
+			return locateNode(value, starterNode.getLeft());
+		}
 	}
 
 	// Returns the minimum in the tree
@@ -80,7 +121,6 @@ public class MyBST<E extends Comparable<E>> {
 		return minHelper(currentNode.getLeft());
 	}
 
-
 	// Returns the maximum in the tree.
 	public E max() {
 		return maxHelper(root);
@@ -93,22 +133,31 @@ public class MyBST<E extends Comparable<E>> {
 		return minHelper(currentNode.getRight());
 	}
 
-	// Returns a bracket-surrounded, comma separated list of the contents of the nodes, in order
+	// Returns a bracket-surrounded, comma separated list of the contents of the
+	// nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
 		return stringHelper(root, "");
 	}
 
-	public String stringHelper(BinaryNode currentNode, String str) {
+	public String stringHelper(BinaryNode<E> currentNode, String str) {
 		if (currentNode == null) {
+			return "";
+		}
+		if (!currentNode.hasLeft()) {
+
+			str += currentNode.getValue();
+			if (currentNode.hasRight()) {
+				str += currentNode.getRight().getValue();
+			}
 			return str;
 		}
-
-		if (currentNode.hasLeft()) {
-			str += stringHelper(currentNode.getLeft(), str);
+		str = stringHelper(currentNode.getLeft(), str);
+		str += currentNode.getValue();
+		if (currentNode.hasRight()) {
+			str = stringHelper(currentNode.getRight(), str);
 		}
-
+		return str;
 	}
-
 
 }
