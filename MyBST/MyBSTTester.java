@@ -24,6 +24,13 @@ public class MyBSTTester {
         System.out.println(tree.remove("m"));
         System.out.println(tree);
 
+
+        // cases for remove
+        // add 1, remove 1 (replacement none cause leaf)
+        // add 1, 2, remove 1 (replacement is 2)
+        // add 1, 3, 2, remove 1 (replacement 2)
+        // add 1, 4, 3, .... 2, remove 1 (replacement 2)
+        // add a, 5, 3, 4, remove 1 (replacement 3, reorient 4 and 5)
     }
 
 }
