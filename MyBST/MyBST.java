@@ -78,13 +78,58 @@ public class MyBST<E extends Comparable<E>> {
 			return false;
 		}
 		BinaryNode<E> removed = locateNode(value, root);
+		if (removed.isLeaf()) {
+			if (removed.isLeft()) {
+				removed.getParent().setLeft(null);
+				return true;
+			}
+			if (removed.isRight()) {
+				removed.getParent().setRight(null);
+				return true;
+			}
+			return false;
+		}
 		BinaryNode<E> replacementNode = findReplacement(removed);
-		removed.getParent().setLeft(replacementNode);
-		removed.getRight().setParent(replacementNode);
+		// this isn't working (when removing root)
+		if (removed.equals(root)) {
+			replacementNode.setParent(null);
+			if (root.hasLeft()) {
+				if (root.hasRight()) {
+					root.getRight().setParent(replacementNode);
+					replacementNode.setRight(root.getRight());
+				}
+				if (!root.getLeft().equals(replacementNode)) {
+					root.getLeft().setParent(replacementNode);
+					replacementNode.setLeft(root.getLeft());
+				}
+			} else {
+
+			}
+			root = replacementNode;
+			return true;
+		}
 		replacementNode.setParent(removed.getParent());
-
-		return true;
-
+		if (removed.isLeft()) {
+			removed.getParent().setLeft(replacementNode);
+		} else {
+			removed.getParent().setRight(replacementNode);
+		}
+		if (removed.hasLeft()) {
+			if (removed.hasRight()) {
+				replacementNode.setRight(removed.getRight());
+				removed.getRight().setParent(replacementNode);
+				if (!removed.getLeft().hasLeft()) {
+					return true;
+				}
+			}
+			replacementNode.setLeft(removed.getLeft());
+			removed.getLeft().setParent(replacementNode);
+			return true;
+		} else {
+			replacementNode.setRight(removed.getRight());
+			removed.getRight().setParent(replacementNode);
+			return true;
+		}
 	}
 
 	public BinaryNode<E> findReplacement(BinaryNode<E> removedNode) {
@@ -137,7 +182,8 @@ public class MyBST<E extends Comparable<E>> {
 	// nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
-		return stringHelper(root, "");
+		String contents = stringHelper(root, "");
+		return "[" + contents.substring(0, contents.length()-2) + "]";
 	}
 
 	public String stringHelper(BinaryNode<E> currentNode, String str) {
@@ -145,15 +191,14 @@ public class MyBST<E extends Comparable<E>> {
 			return "";
 		}
 		if (!currentNode.hasLeft()) {
-
-			str += currentNode.getValue();
+			str += currentNode.getValue() + ", ";
 			if (currentNode.hasRight()) {
-				str += currentNode.getRight().getValue();
+				str = stringHelper(currentNode.getRight(), str);
 			}
 			return str;
 		}
 		str = stringHelper(currentNode.getLeft(), str);
-		str += currentNode.getValue();
+		str += currentNode.getValue() + ", ";
 		if (currentNode.hasRight()) {
 			str = stringHelper(currentNode.getRight(), str);
 		}

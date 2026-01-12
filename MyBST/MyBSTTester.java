@@ -14,10 +14,16 @@ public class MyBSTTester {
         System.err.println(tree.add("p"));
         System.out.println(tree.add("n"));
         System.out.println(tree.add("s"));
+        System.out.println(tree);
+
+        System.out.println(tree.remove("u"));
+
         System.out.println(tree.remove("s"));
 
-
         System.out.println(tree);
+        System.out.println(tree.remove("m"));
+        System.out.println(tree);
+
     }
 
 }
