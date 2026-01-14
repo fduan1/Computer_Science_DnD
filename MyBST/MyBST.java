@@ -87,60 +87,104 @@ public class MyBST<E extends Comparable<E>> {
 				removed.getParent().setRight(null);
 				return true;
 			}
+			if (removed.equals(root)) {
+				root = null;
+				return true;
+			}
 			return false;
 		}
 		BinaryNode<E> replacementNode = findReplacement(removed);
+
 		// this isn't working (when removing root)
 		if (removed.equals(root)) {
-			replacementNode.setParent(null);
-			if (root.hasLeft()) {
-				if (root.hasRight()) {
-					root.getRight().setParent(replacementNode);
-					replacementNode.setRight(root.getRight());
+			if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
+				if (replacementNode.equals(removed.getRight())) {
+					if (removed.hasLeft()) {
+						removed.getLeft().setParent(replacementNode);
+						replacementNode.setLeft(removed.getLeft());
+					}
+				} else if (replacementNode.isLeaf()) {
+					if (replacementNode.isLeft()) {
+						replacementNode.getParent().setLeft(null);
+					} else {
+						replacementNode.getParent().setRight(null);
+					}
+					replacementNode.setLeft(removed.getLeft());
+					replacementNode.setRight(removed.getRight());
+				} else if (replacementNode.isLeft() && replacementNode.hasRight()) {
+					replacementNode.getParent().setLeft(replacementNode.getRight());
+					replacementNode.setLeft(removed.getLeft());
+					replacementNode.setRight(removed.getRight());
 				}
-				if (!root.getLeft().equals(replacementNode)) {
-					root.getLeft().setParent(replacementNode);
-					replacementNode.setLeft(root.getLeft());
-				}
-			} else {
-
+				replacementNode.setParent(null);
+				root = replacementNode;
+				return true;
 			}
-			root = replacementNode;
-			return true;
 		}
-		replacementNode.setParent(removed.getParent());
-		if (removed.isLeft()) {
-			removed.getParent().setLeft(replacementNode);
-		} else {
-			removed.getParent().setRight(replacementNode);
-		}
-		if (removed.hasLeft()) {
-			if (removed.hasRight()) {
-				replacementNode.setRight(removed.getRight());
-				removed.getRight().setParent(replacementNode);
-				if (!removed.getLeft().hasLeft()) {
+			// replacementNode.setParent(removed.getParent());
+			// if (removed.isLeft()) {
+			// removed.getParent().setLeft(replacementNode);
+			// } else {
+			// removed.getParent().setRight(replacementNode);
+			// }
+
+			if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
+				if (replacementNode.equals(removed.getRight())) {
+					if (removed.hasLeft()) {
+						removed.getLeft().setParent(replacementNode);
+						replacementNode.setLeft(removed.getLeft());
+					}
+					if (removed.isLeft()) {
+						removed.getParent().setLeft(replacementNode);
+					} else {
+						removed.getParent().setRight(replacementNode);
+					}
+					replacementNode.setParent(removed.getParent());
+					return true;
+				}
+				if (replacementNode.isLeaf()) {
+					if (replacementNode.isLeft()) {
+						replacementNode.getParent().setLeft(null);
+					} else {
+						replacementNode.getParent().setRight(null);
+					}
+					if (removed.hasLeft()) {
+						replacementNode.setLeft(removed.getLeft());
+					}
+					if (removed.hasRight()) {
+						replacementNode.setRight(removed.getRight());
+					}
+					if (removed.isLeft()) {
+						removed.getParent().setLeft(replacementNode);
+					} else {
+						removed.getParent().setRight(replacementNode);
+					}
+					replacementNode.setParent(removed.getParent());
 					return true;
 				}
 			}
-			replacementNode.setLeft(removed.getLeft());
-			removed.getLeft().setParent(replacementNode);
-			return true;
-		} else {
-			replacementNode.setRight(removed.getRight());
-			removed.getRight().setParent(replacementNode);
-			return true;
-		}
+		// if (removed.hasLeft()) {
+		// if (removed.hasRight()) {
+		// replacementNode.setRight(removed.getRight());
+		// removed.getRight().setParent(replacementNode);
+		// if (!removed.getLeft().hasLeft()) {
+		// return true;
+		// }
+		// }
+		// replacementNode.setLeft(removed.getLeft());
+		// removed.getLeft().setParent(replacementNode);
+		// return true;
+		// } else {
+		// replacementNode.setRight(removed.getRight());
+		// removed.getRight().setParent(replacementNode);
+		return true;
 	}
 
 	public BinaryNode<E> findReplacement(BinaryNode<E> removedNode) {
 		if (!removedNode.hasLeft()) {
-			return removedNode.getRight();
+			return minHelper(removedNode.getRight());
 		}
-		BinaryNode<E> currentNode = removedNode.getLeft();
-		if (!currentNode.hasRight()) {
-			return currentNode;
-		}
-		return currentNode.getRight();
+		return maxHelper(removedNode.getLeft());
 	}
 
 	public BinaryNode<E> locateNode(E value, BinaryNode<E> starterNode) {
@@ -156,24 +200,24 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns the minimum in the tree
 	public E min() {
-		return minHelper(root);
+		return minHelper(root).getValue();
 	}
 
-	public E minHelper(BinaryNode<E> currentNode) {
+	public BinaryNode<E> minHelper(BinaryNode<E> currentNode) {
 		if (!currentNode.hasLeft()) {
-			return currentNode.getValue();
+			return currentNode;
 		}
 		return minHelper(currentNode.getLeft());
 	}
 
 	// Returns the maximum in the tree.
 	public E max() {
-		return maxHelper(root);
+		return maxHelper(root).getValue();
 	}
 
-	public E maxHelper(BinaryNode<E> currentNode) {
+	public BinaryNode<E> maxHelper(BinaryNode<E> currentNode) {
 		if (!currentNode.hasRight()) {
-			return currentNode.getValue();
+			return currentNode;
 		}
 		return minHelper(currentNode.getRight());
 	}
@@ -183,7 +227,10 @@ public class MyBST<E extends Comparable<E>> {
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
 		String contents = stringHelper(root, "");
-		return "[" + contents.substring(0, contents.length()-2) + "]";
+		if (contents.length() > 2) {
+			contents = contents.substring(0, contents.length() - 2);
+		}
+		return "[" + contents + "]";
 	}
 
 	public String stringHelper(BinaryNode<E> currentNode, String str) {

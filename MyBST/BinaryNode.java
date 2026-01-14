@@ -70,6 +70,9 @@ public class BinaryNode<E extends Comparable<E>> {
 	}
 
 	public boolean isLeft() {
+		if (this.parent == null) {
+			return false;
+		}
 		if (this.getParent().getLeft().equals(this)) {
 			return true;
 		}
@@ -77,6 +80,9 @@ public class BinaryNode<E extends Comparable<E>> {
 	}
 
 	public boolean isRight() {
+		if (this.parent == null) {
+			return false;
+		}
 		if (this.getParent().getRight().equals(this)) {
 			return true;
 		}
