@@ -57,6 +57,10 @@ public class MyBSTTester {
         System.out.println(intTree);
         intTree.remove(1);
         System.out.println(intTree);
+        
+        System.out.println(intTree.max());
+        System.out.println(intTree.min());
+
 
         // cases for remove
         // add 1, remove 1 (replacement none cause leaf)

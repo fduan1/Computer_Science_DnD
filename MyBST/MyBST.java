@@ -121,62 +121,111 @@ public class MyBST<E extends Comparable<E>> {
 				return true;
 			}
 		}
-			// replacementNode.setParent(removed.getParent());
-			// if (removed.isLeft()) {
-			// removed.getParent().setLeft(replacementNode);
-			// } else {
-			// removed.getParent().setRight(replacementNode);
-			// }
 
-			if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
-				if (replacementNode.equals(removed.getRight())) {
-					if (removed.hasLeft()) {
-						removed.getLeft().setParent(replacementNode);
-						replacementNode.setLeft(removed.getLeft());
-					}
-					if (removed.isLeft()) {
-						removed.getParent().setLeft(replacementNode);
-					} else {
-						removed.getParent().setRight(replacementNode);
-					}
-					replacementNode.setParent(removed.getParent());
-					return true;
+		if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
+			if (replacementNode.equals(removed.getRight())) {
+				if (removed.hasLeft()) {
+					removed.getLeft().setParent(replacementNode);
+					replacementNode.setLeft(removed.getLeft());
 				}
-				if (replacementNode.isLeaf()) {
-					if (replacementNode.isLeft()) {
-						replacementNode.getParent().setLeft(null);
-					} else {
-						replacementNode.getParent().setRight(null);
-					}
-					if (removed.hasLeft()) {
-						replacementNode.setLeft(removed.getLeft());
-					}
-					if (removed.hasRight()) {
-						replacementNode.setRight(removed.getRight());
-					}
-					if (removed.isLeft()) {
-						removed.getParent().setLeft(replacementNode);
-					} else {
-						removed.getParent().setRight(replacementNode);
-					}
-					replacementNode.setParent(removed.getParent());
-					return true;
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else {
+					removed.getParent().setRight(replacementNode);
 				}
+				replacementNode.setParent(removed.getParent());
+				return true;
 			}
-		// if (removed.hasLeft()) {
-		// if (removed.hasRight()) {
-		// replacementNode.setRight(removed.getRight());
-		// removed.getRight().setParent(replacementNode);
-		// if (!removed.getLeft().hasLeft()) {
-		// return true;
-		// }
-		// }
-		// replacementNode.setLeft(removed.getLeft());
-		// removed.getLeft().setParent(replacementNode);
-		// return true;
-		// } else {
-		// replacementNode.setRight(removed.getRight());
-		// removed.getRight().setParent(replacementNode);
+			if (replacementNode.isLeaf()) {
+				if (replacementNode.isLeft()) {
+					replacementNode.getParent().setLeft(null);
+				} else {
+					replacementNode.getParent().setRight(null);
+				}
+				if (removed.hasLeft()) {
+					replacementNode.setLeft(removed.getLeft());
+				}
+				if (removed.hasRight()) {
+					replacementNode.setRight(removed.getRight());
+				}
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else {
+					removed.getParent().setRight(replacementNode);
+				}
+				replacementNode.setParent(removed.getParent());
+				return true;
+			}
+			// TODO: edit
+			if (replacementNode.isLeft() && replacementNode.hasRight()) {
+				replacementNode.getParent().setLeft(replacementNode.getRight());
+				replacementNode.setLeft(removed.getLeft());
+				replacementNode.setRight(removed.getRight());
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else if (removed.isRight()) {
+					removed.getParent().setRight(replacementNode);
+				}
+				replacementNode.setParent(removed.getParent());
+				return true;
+			}
+
+			
+
+
+			
+		}
+		// TODO: LEFT SIDE
+
+
+				if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
+			if (replacementNode.equals(removed.getRight())) {
+				if (removed.hasLeft()) {
+					removed.getLeft().setParent(replacementNode);
+					replacementNode.setLeft(removed.getLeft());
+				}
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else {
+					removed.getParent().setRight(replacementNode);
+				}
+				replacementNode.setParent(removed.getParent());
+				return true;
+			}
+			if (replacementNode.isLeaf()) {
+				if (replacementNode.isLeft()) {
+					replacementNode.getParent().setLeft(null);
+				} else {
+					replacementNode.getParent().setRight(null);
+				}
+				if (removed.hasLeft()) {
+					replacementNode.setLeft(removed.getLeft());
+				}
+				if (removed.hasRight()) {
+					replacementNode.setRight(removed.getRight());
+				}
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else {
+					removed.getParent().setRight(replacementNode);
+				}
+				replacementNode.setParent(removed.getParent());
+				return true;
+			}
+			// TODO: edit
+			if (replacementNode.isLeft() && replacementNode.hasRight()) {
+				replacementNode.getParent().setLeft(replacementNode.getRight());
+				replacementNode.setLeft(removed.getLeft());
+				replacementNode.setRight(removed.getRight());
+				if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
+				} else if (removed.isRight()) {
+					removed.getParent().setRight(replacementNode);
+				}
+				replacementNode.setParent(removed.getParent());
+				return true;
+			}
+		}
 		return true;
 	}
 
@@ -219,7 +268,7 @@ public class MyBST<E extends Comparable<E>> {
 		if (!currentNode.hasRight()) {
 			return currentNode;
 		}
-		return minHelper(currentNode.getRight());
+		return maxHelper(currentNode.getRight());
 	}
 
 	// Returns a bracket-surrounded, comma separated list of the contents of the
