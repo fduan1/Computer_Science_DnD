@@ -113,6 +113,31 @@ public class MyBST<E extends Comparable<E>> {
 					replacementNode.setRight(removed.getRight());
 				} else if (replacementNode.isLeft() && replacementNode.hasRight()) {
 					replacementNode.getParent().setLeft(replacementNode.getRight());
+					replacementNode.getRight().setParent(replacementNode.getParent());
+					replacementNode.setLeft(removed.getLeft());
+					replacementNode.setRight(removed.getRight());
+				}
+				replacementNode.setParent(null);
+				root = replacementNode;
+				return true;
+			} else {
+				if (replacementNode.equals(removed.getLeft())) {
+					if (removed.hasRight()) {
+						removed.getRight().setParent(replacementNode);
+						replacementNode.setRight(removed.getLeft());
+					}
+				} else if (replacementNode.isLeaf()) {
+					if (replacementNode.isLeft()) {
+						replacementNode.getParent().setLeft(null);
+					} else {
+						replacementNode.getParent().setRight(null);
+					}
+					replacementNode.setLeft(removed.getLeft());
+					replacementNode.setRight(removed.getRight());
+				} else if (replacementNode.isRight() && replacementNode.hasLeft()) {
+					replacementNode.getParent().setRight(replacementNode.getLeft());
+					replacementNode.getLeft().setParent(replacementNode.getRight());
+
 					replacementNode.setLeft(removed.getLeft());
 					replacementNode.setRight(removed.getRight());
 				}
@@ -156,7 +181,6 @@ public class MyBST<E extends Comparable<E>> {
 				replacementNode.setParent(removed.getParent());
 				return true;
 			}
-			// TODO: edit
 			if (replacementNode.isLeft() && replacementNode.hasRight()) {
 				replacementNode.getParent().setLeft(replacementNode.getRight());
 				replacementNode.setLeft(removed.getLeft());
@@ -169,25 +193,16 @@ public class MyBST<E extends Comparable<E>> {
 				replacementNode.setParent(removed.getParent());
 				return true;
 			}
-
-			
-
-
-			
-		}
-		// TODO: LEFT SIDE
-
-
-				if (replacementNode.getValue().compareTo(removed.getValue()) > 0) {
-			if (replacementNode.equals(removed.getRight())) {
-				if (removed.hasLeft()) {
-					removed.getLeft().setParent(replacementNode);
-					replacementNode.setLeft(removed.getLeft());
+		} else {
+			if (replacementNode.equals(removed.getLeft())) {
+				if (removed.hasRight()) {
+					removed.getRight().setParent(replacementNode);
+					replacementNode.setRight(removed.getRight());
 				}
-				if (removed.isLeft()) {
-					removed.getParent().setLeft(replacementNode);
-				} else {
+				if (removed.isRight()) {
 					removed.getParent().setRight(replacementNode);
+				} else {
+					removed.getParent().setLeft(replacementNode);
 				}
 				replacementNode.setParent(removed.getParent());
 				return true;
@@ -212,21 +227,21 @@ public class MyBST<E extends Comparable<E>> {
 				replacementNode.setParent(removed.getParent());
 				return true;
 			}
-			// TODO: edit
-			if (replacementNode.isLeft() && replacementNode.hasRight()) {
-				replacementNode.getParent().setLeft(replacementNode.getRight());
-				replacementNode.setLeft(removed.getLeft());
+			if (replacementNode.isRight() && replacementNode.hasLeft()) {
+				replacementNode.getParent().setRight(replacementNode.getLeft());
 				replacementNode.setRight(removed.getRight());
-				if (removed.isLeft()) {
-					removed.getParent().setLeft(replacementNode);
-				} else if (removed.isRight()) {
+				replacementNode.setLeft(removed.getLeft());
+				if (removed.isRight()) {
 					removed.getParent().setRight(replacementNode);
+				} else if (removed.isLeft()) {
+					removed.getParent().setLeft(replacementNode);
 				}
 				replacementNode.setParent(removed.getParent());
 				return true;
 			}
 		}
 		return true;
+
 	}
 
 	public BinaryNode<E> findReplacement(BinaryNode<E> removedNode) {

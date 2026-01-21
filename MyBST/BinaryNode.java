@@ -73,14 +73,20 @@ public class BinaryNode<E extends Comparable<E>> {
 		if (this.parent == null) {
 			return false;
 		}
+		if (this.getParent().getLeft() == null) {
+			return false;
+		}
 		if (this.getParent().getLeft().equals(this)) {
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean isRight() {
 		if (this.parent == null) {
+			return false;
+		}
+		if (this.getParent().getRight() == null) {
 			return false;
 		}
 		if (this.getParent().getRight().equals(this)) {
