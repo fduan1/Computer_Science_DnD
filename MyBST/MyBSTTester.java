@@ -59,6 +59,10 @@ public class MyBSTTester {
         System.out.println(intTree);
         intTree.remove(intTree.min());
         System.out.println(intTree);
+        intTree.remove(intTree.min());
+        System.out.println(intTree);
+        intTree.remove(intTree.min());
+        System.out.println(intTree);
 
         
         System.out.println(intTree.max());

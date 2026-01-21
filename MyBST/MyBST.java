@@ -19,6 +19,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		if (value == null) {
+			return false;
+		}
 		BinaryNode<E> currentNode = root;
 		while (currentNode != null) {
 			if (currentNode.getValue().compareTo(value) == 0) {
@@ -268,6 +271,9 @@ public class MyBST<E extends Comparable<E>> {
 	}
 
 	public BinaryNode<E> minHelper(BinaryNode<E> currentNode) {
+		if (currentNode == null) {
+			return null;
+		}
 		if (!currentNode.hasLeft()) {
 			return currentNode;
 		}
@@ -280,6 +286,9 @@ public class MyBST<E extends Comparable<E>> {
 	}
 
 	public BinaryNode<E> maxHelper(BinaryNode<E> currentNode) {
+		if (currentNode == null) {
+			return null;
+		}
 		if (!currentNode.hasRight()) {
 			return currentNode;
 		}
