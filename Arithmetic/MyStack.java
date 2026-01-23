@@ -6,6 +6,9 @@ public class MyStack<E> {
     }
 
     public boolean push(E obj) {
+        if (obj == null) {
+            return false;
+        }
         ListNode<E> newObj = new ListNode<E>(obj, head);
         head = newObj;
         return true;
