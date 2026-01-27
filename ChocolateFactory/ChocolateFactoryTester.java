@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class CookieMonsterTester {
+public class ChocolateFactoryTester {
 
 	/**
 	 * In this program Cookie Monster finds the optimal path from
@@ -34,7 +34,7 @@ public class CookieMonsterTester {
 		kboard.close();
 
 		for (String fileName : fileNames) {
-			CookieMonster monster = new CookieMonster(fileName);
+			ChocolateFactory monster = new ChocolateFactory(fileName);
 
 			long start = System.currentTimeMillis();
 			int optrecursion = monster.recursiveCookies();
