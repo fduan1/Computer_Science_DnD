@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+import javax.management.QueryEval;
+
 // You are allowed (and expected!) to use either Java's ArrayDeque or LinkedList class to make stacks and queues
 
 public class ChocolateFactory {
@@ -54,32 +56,29 @@ public class ChocolateFactory {
 	 * Returns the maximum number of cookies attainable.
 	 */
 	public int recursiveCookies() {
-		return recursiveCookies(0, 0);
+		return recursiveCookies(0, 0, 0);
 	}
 
 	// Returns the maximum number of cookies edible starting from (and including)
 	// cookieGrid[row][col]
-	// TODO: this shit sucks 
-	public int recursiveCookies(int row, int col) {
+	// 1 by 1 grid with just a landmine
+	public int recursiveCookies(int row, int col, int numCookies) {
 		// CODE THIS
 		if (!validPoint(row, col)) {
 			return -1;
 		}
-		int numCookies = cookieGrid[row][col];
-		if (row == numRows - 1 && col == numCols - 1) {
+		if (cookieGrid[row][col] == -1) {
 			return numCookies;
 		}
-		int down = recursiveCookies(row + 1, col);
-		int right = recursiveCookies(row, col + 1);
-		if (right == -1) {
-			return numCookies + down;
-		} else if (down == -1) {
-			return numCookies + right;
+		if (row == numRows - 1 && col == numCols - 1) {
+			return numCookies + cookieGrid[row][col];
 		}
+		int down = recursiveCookies(row + 1, col, numCookies + cookieGrid[row][col]);
+		int right = recursiveCookies(row, col + 1, numCookies + cookieGrid[row][col]);
 		if (right > down) {
-			return numCookies + right;
+			return right;
 		} else {
-			return numCookies + down;
+			return down;
 		}
 	}
 
@@ -93,7 +92,33 @@ public class ChocolateFactory {
 	 */
 	public int queueCookies() {
 		// CODE THIS
-		return 0;
+		Queue<OrphanScout> orphans = new LinkedList<>();
+		int r = 0;
+		int c = 0;
+		int greatestCookie = 0;
+		orphans.add(new OrphanScout(r, c, cookieGrid[r][c]));
+		while (!orphans.isEmpty()) {
+			while (c < numCols) {
+				if (cookieGrid[r][c] == -1) {
+					break;
+				}
+				OrphanScout orphan = new OrphanScout(r, c, orphans.remove().getCookiesDiscovered() + cookieGrid[r][c]);
+				orphans.add(orphan);
+				// need way to record path and to add, and to skip to next row when column has
+				// mine
+				c++;
+			}
+			// this is so stupid idk what im doing lmao
+			r++;
+			greatestCookie = orphans.remove().getCookiesDiscovered();
+			if (orphans.peek().getCookiesDiscovered() > greatestCookie) {
+				greatestCookie = orphans.remove().getCookiesDiscovered();
+			}
+			// what is going on , idk
+		}
+
+		return greatestCookie;
+
 	}
 
 	/*
