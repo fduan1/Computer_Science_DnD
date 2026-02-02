@@ -5,7 +5,7 @@ import javax.management.QueryEval;
 
 // You are allowed (and expected!) to use either Java's ArrayDeque or LinkedList class to make stacks and queues
 
-public class ChocolateFactory {
+public class CookieMonster {
 
 	private int[][] cookieGrid;
 	private int numRows;
@@ -14,7 +14,7 @@ public class ChocolateFactory {
 	// Constructs a CookieMonster from a file with format:
 	// numRows numCols
 	// <<rest of the grid, with spaces in between the numbers>>
-	public ChocolateFactory(String fileName) {
+	public CookieMonster(String fileName) {
 		int row = 0;
 		int col = 0;
 		try {
@@ -36,7 +36,7 @@ public class ChocolateFactory {
 
 	}
 
-	public ChocolateFactory(int[][] cookieGrid) {
+	public CookieMonster(int[][] cookieGrid) {
 		this.cookieGrid = cookieGrid;
 		this.numRows = cookieGrid.length;
 		this.numCols = cookieGrid[0].length;
