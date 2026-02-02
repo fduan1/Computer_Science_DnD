@@ -96,29 +96,26 @@ public class ChocolateFactory {
 		int r = 0;
 		int c = 0;
 		int greatestCookie = 0;
-		orphans.add(new OrphanScout(r, c, cookieGrid[r][c]));
+		int numCookies = cookieGrid[r][c];
+		OrphanScout orphan = new OrphanScout(r, c, numCookies);
+		orphans.add(orphan);
 		while (!orphans.isEmpty()) {
-			while (c < numCols) {
-				if (cookieGrid[r][c] == -1) {
-					break;
-				}
-				OrphanScout orphan = new OrphanScout(r, c, orphans.remove().getCookiesDiscovered() + cookieGrid[r][c]);
-				orphans.add(orphan);
-				// need way to record path and to add, and to skip to next row when column has
-				// mine
-				c++;
-			}
-			// this is so stupid idk what im doing lmao
-			r++;
-			greatestCookie = orphans.remove().getCookiesDiscovered();
+			r = orphans.peek().getEndingRow();
+			c = orphans.peek().getEndingCol();
+			numCookies = orphans.peek().getCookiesDiscovered();
 			if (orphans.peek().getCookiesDiscovered() > greatestCookie) {
 				greatestCookie = orphans.remove().getCookiesDiscovered();
+			} else {
+				orphans.remove();
 			}
-			// what is going on , idk
+			if (validPoint(r + 1, c) && cookieGrid[r + 1][c] != -1) {
+				orphans.add(new OrphanScout(r + 1, c, numCookies + cookieGrid[r + 1][c]));
+			}
+			if (validPoint(r, c + 1) && cookieGrid[r][c + 1] != -1) {
+				orphans.add(new OrphanScout(r, c + 1, numCookies + cookieGrid[r][c + 1]));
+			}
 		}
-
 		return greatestCookie;
-
 	}
 
 	/*
@@ -131,7 +128,30 @@ public class ChocolateFactory {
 	 */
 	public int stackCookies() {
 		// CODE THIS
-		return 0;
+		MyStack<OrphanScout> orphans = new MyStack<>();
+		int r = 0;
+		int c = 0;
+		int greatestCookie = 0;
+		int numCookies = cookieGrid[r][c];
+		OrphanScout orphan = new OrphanScout(r, c, numCookies);
+		orphans.push(orphan);
+		while (!orphans.empty()) {
+			r = orphans.peek().getEndingRow();
+			c = orphans.peek().getEndingCol();
+			numCookies = orphans.peek().getCookiesDiscovered();
+			if (orphans.peek().getCookiesDiscovered() > greatestCookie) {
+				greatestCookie = orphans.pop().getCookiesDiscovered();
+			} else {
+				orphans.pop();
+			}
+			if (validPoint(r + 1, c) && cookieGrid[r + 1][c] != -1) {
+				orphans.push(new OrphanScout(r + 1, c, numCookies + cookieGrid[r + 1][c]));
+			}
+			if (validPoint(r, c + 1) && cookieGrid[r][c + 1] != -1) {
+				orphans.push(new OrphanScout(r, c + 1, numCookies + cookieGrid[r][c + 1]));
+			}
+		}
+		return greatestCookie;
 	}
 
 }
