@@ -92,6 +92,9 @@ public class CookieMonster {
 	 */
 	public int queueCookies() {
 		// CODE THIS
+		if (cookieGrid[0][0] == -1) {
+			return 0;
+		}
 		Queue<OrphanScout> orphans = new LinkedList<>();
 		int r = 0;
 		int c = 0;
@@ -128,7 +131,10 @@ public class CookieMonster {
 	 */
 	public int stackCookies() {
 		// CODE THIS
-		MyStack<OrphanScout> orphans = new MyStack<>();
+		if (cookieGrid[0][0] == -1) {
+			return 0;
+		}
+		Stack<OrphanScout> orphans = new Stack<>();
 		int r = 0;
 		int c = 0;
 		int greatestCookie = 0;
