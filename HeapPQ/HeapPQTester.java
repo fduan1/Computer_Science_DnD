@@ -11,13 +11,12 @@ public class HeapPQTester {
         heap.add(3);
         heap.add(2);
         heap.add(20);
-        for (int i = 0; i < heap.size(); i++) {
-            System.out.println(heap);
-        }
+        System.out.println(heap);
         heap.removeMin();
-        for (int i = 0; i < heap.size(); i++) {
-            System.out.println(heap);
-        }
+        System.out.println(heap);
+
+        heap.removeMin();
+        System.out.println(heap);
     }
 
 }
