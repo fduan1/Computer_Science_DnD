@@ -1,6 +1,6 @@
 public class HeapPQTester {
     public static void main(String[] args) {
-        HeapPQ heap = new HeapPQ<>();
+        HeapPQ<Integer> heap = new HeapPQ<>();
         heap.add(24);
         heap.add(25);
         heap.add(9);
