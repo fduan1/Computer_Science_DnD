@@ -152,14 +152,16 @@ public class ChocolateHashMap<K, V> {
     // followed by Z, then K.
     public void rehash(int newBucketCount) {
         // TODO: implement
-        ChocolateHashMap<K, V> newBuckets = new ChocolateHashMap<>(newBucketCount, loadFactorLimit);
+        BatchNode<ChocolateEntry<K, V>>[] newBuckets =
+                (BatchNode<ChocolateEntry<K, V>>[]) new BatchNode[buckets.length * 2];
         for (int i = 0; i < buckets.length; i++) {
             BatchNode<ChocolateEntry<K, V>> bucket = buckets[i];
             for (BatchNode<ChocolateEntry<K, V>> j = bucket.getNext(); j != bucket; j =
                     j.getNext()) {
-                newBuckets.buckets[whichBucket(j.getEntry().getKey())].insertBefore(j);
+                newBuckets[whichBucket(j.getEntry().getKey())].insertBefore(j);
             }
         }
+        buckets = newBuckets;
     }
 
     // The output should be in the following format:
@@ -173,6 +175,9 @@ public class ChocolateHashMap<K, V> {
     @Override
     public String toString() {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement toString");
+        for (int i = 0; i < buckets.length; i++) {
+
+        }
+            throw new UnsupportedOperationException("TODO: implement toString");
     }
 }
