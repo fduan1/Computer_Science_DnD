@@ -51,27 +51,44 @@ public class ChocolateHashMap<K, V> {
     // NOTE: Math.abs(Integer.MIN_VALUE) is still negative. Consider masking the sign bit.
     private int whichBucket(K key) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement whichBucket");
+
+        return (int) (Math.abs(key.hashCode() % buckets.length));
     }
 
     // Returns the current load factor (objCount / buckets)
     public double currentLoadFactor() {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement currentLoadFactor");
+        return size() / buckets.length;
     }
 
     // Return true if the key exists as a key in the map, otherwise false.
     // Use the .equals method to check equality.
     public boolean containsKey(K key) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement containsKey");
+        if (buckets[whichBucket(key)] == null) {
+            return false;
+        }
+        BatchNode<ChocolateEntry<K, V>> bucket = buckets[whichBucket(key)];
+        for (BatchNode<ChocolateEntry<K, V>> i = bucket.getNext(); i != bucket; i = i.getNext()) {
+            if (i.getEntry().getKey().equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Return true if the value exists as a value in the map, otherwise false.
     // Use the .equals method to check equality.
     public boolean containsValue(V value) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement containsValue");
+        for (int i = 0; i < buckets.length; i++) {
+            for (BatchNode<ChocolateEntry<K, V>> j = buckets[i].getNext(); j != buckets[i]; j =
+                    j.getNext()) {
+                if (j.getEntry().getValue().equals(value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // Puts a key-value pair into the map.
@@ -82,21 +99,50 @@ public class ChocolateHashMap<K, V> {
     // - If so, you must call rehash with double the current bucket size.
     public boolean put(K key, V value) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement put");
+        if (containsKey(key)) {
+            return false;
+        }
+        BatchNode<ChocolateEntry<K, V>> newBatch =
+                new BatchNode<ChocolateEntry<K, V>>(new ChocolateEntry<>(key, value));
+        buckets[key.hashCode()].insertBefore(newBatch);
+        if (currentLoadFactor() > loadFactorLimit) {
+            rehash(buckets.length);
+        }
+        return true;
     }
 
     // Returns the value associated with the key in the map.
     // If the key is not in the map, then return null.
     public V get(K key) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement get");
+        if (!containsKey(key)) {
+            return null;
+        }
+        for (BatchNode<ChocolateEntry<K, V>> j =
+                buckets[key.hashCode()].getNext(); j != buckets[key.hashCode()]; j = j.getNext()) {
+            if (j.getEntry().getKey().equals(key)) {
+                return j.getEntry().getValue();
+            }
+        }
+        return null;
+
     }
 
     // Remove the pair associated with the key.
     // Return true if successful, false if the key did not exist.
     public boolean remove(K key) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement remove");
+        if (!containsKey(key)) {
+            return false;
+        }
+        for (BatchNode<ChocolateEntry<K, V>> j =
+                buckets[key.hashCode()].getNext(); j != buckets[key.hashCode()]; j = j.getNext()) {
+            if (j.getEntry().getKey().equals(key)) {
+                j.unlink();
+                return true;
+            }
+        }
+        return false;
     }
 
     // Rehash the map so that it contains the given number of buckets
@@ -106,7 +152,14 @@ public class ChocolateHashMap<K, V> {
     // followed by Z, then K.
     public void rehash(int newBucketCount) {
         // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement rehash");
+        ChocolateHashMap<K, V> newBuckets = new ChocolateHashMap<>(newBucketCount, loadFactorLimit);
+        for (int i = 0; i < buckets.length; i++) {
+            BatchNode<ChocolateEntry<K, V>> bucket = buckets[i];
+            for (BatchNode<ChocolateEntry<K, V>> j = bucket.getNext(); j != bucket; j =
+                    j.getNext()) {
+                newBuckets.buckets[whichBucket(j.getEntry().getKey())].insertBefore(j);
+            }
+        }
     }
 
     // The output should be in the following format:
