@@ -59,14 +59,14 @@ public class ChocolateHashMap<K, V> {
 
     // Returns the current load factor (objCount / buckets)
     public double currentLoadFactor() {
-        return size() / buckets.length;
+        return (double)size() / buckets.length;
     }
 
     // Return true if the key exists as a key in the map, otherwise false.
     // Use the .equals method to check equality.
     public boolean containsKey(K key) {
         // TODO: implement
-        if (buckets[whichBucket(key)] == null) {
+        if (buckets[whichBucket(key)].getNext().isSentinel()) {
             return false;
         }
         BatchNode<ChocolateEntry<K, V>> bucket = buckets[whichBucket(key)];
@@ -84,7 +84,7 @@ public class ChocolateHashMap<K, V> {
         // TODO: implement
         for (int i = 0; i < buckets.length; i++) {
             for (BatchNode<ChocolateEntry<K, V>> j = buckets[i].getNext(); j != buckets[i]; j = j.getNext()) {
-                if (j.getEntry().getValue().equals(value)) {
+                if (j.getEntry().getValue() == value || j.getEntry().getValue().equals(value)) {
                     return true;
                 }
             }
@@ -105,10 +105,12 @@ public class ChocolateHashMap<K, V> {
         }
         BatchNode<ChocolateEntry<K, V>> newBatch = new BatchNode<ChocolateEntry<K, V>>(
                 new ChocolateEntry<>(key, value));
-        buckets[key.hashCode()].insertBefore(newBatch);
+        int bucket = whichBucket(key);
+        buckets[whichBucket(key)].insertBefore(newBatch);
         if (currentLoadFactor() > loadFactorLimit) {
-            rehash(buckets.length);
+            rehash(buckets.length * 2);
         }
+        objectCount++;
         return true;
     }
 
@@ -119,8 +121,9 @@ public class ChocolateHashMap<K, V> {
         if (!containsKey(key)) {
             return null;
         }
-        for (BatchNode<ChocolateEntry<K, V>> j = buckets[key.hashCode()].getNext(); j != buckets[key.hashCode()]; j = j
-                .getNext()) {
+        for (BatchNode<ChocolateEntry<K, V>> j = buckets[whichBucket(key)].getNext(); j != buckets[whichBucket(
+                key)]; j = j
+                        .getNext()) {
             if (j.getEntry().getKey().equals(key)) {
                 return j.getEntry().getValue();
             }
@@ -136,10 +139,12 @@ public class ChocolateHashMap<K, V> {
         if (!containsKey(key)) {
             return false;
         }
-        for (BatchNode<ChocolateEntry<K, V>> j = buckets[key.hashCode()].getNext(); j != buckets[key.hashCode()]; j = j
-                .getNext()) {
+        for (BatchNode<ChocolateEntry<K, V>> j = buckets[whichBucket(key)].getNext(); j != buckets[whichBucket(
+                key)]; j = j
+                        .getNext()) {
             if (j.getEntry().getKey().equals(key)) {
                 j.unlink();
+                objectCount--;
                 return true;
             }
         }
@@ -158,9 +163,12 @@ public class ChocolateHashMap<K, V> {
         // TODO: implement
         BatchNode<ChocolateEntry<K, V>>[] newBuckets = (BatchNode<ChocolateEntry<K, V>>[]) new BatchNode[newBucketCount];
         for (int i = 0; i < buckets.length; i++) {
-            BatchNode<ChocolateEntry<K, V>> bucket = buckets[i];
-            for (BatchNode<ChocolateEntry<K, V>> j = bucket.getPrevious(); j != bucket; j = j.getPrevious()) {
-                newBuckets[whichBucket(j.getEntry().getKey())].insertBefore(j);
+            if (!buckets[i].getNext().equals(buckets[i])) {
+                BatchNode<ChocolateEntry<K, V>> bucket = buckets[i];
+                for (BatchNode<ChocolateEntry<K, V>> j = bucket.getNext(); j != bucket; j = j.getNext()) {
+                    BatchNode<ChocolateEntry<K,V>> copy = new BatchNode<>(j.getEntry());
+                    newBuckets[whichBucket(j.getEntry().getKey())].insertBefore(copy);
+                }
             }
         }
         buckets = newBuckets;
@@ -180,12 +188,12 @@ public class ChocolateHashMap<K, V> {
         // TODO: implement
         String str = "[ " + objectCount + ", " + buckets.length + " | ";
         for (int i = 0; i < buckets.length; i++) {
-            if (buckets[i] != null) {
+            if (!buckets[i].getNext().equals(buckets[i])) {
                 str += " { b" + i + ": ";
                 for (BatchNode<ChocolateEntry<K, V>> j = buckets[i].getNext(); j != buckets[i]; j = j.getNext()) {
-                    str += "" + j.getEntry().getKey() + j.getEntry() + ",";
+                    str += "" + j.getEntry() + ",";
                 }
-                str = str.substring(0, str.length());
+                str = str.substring(0, str.length()-1);
                 str += " }";
             }
         }

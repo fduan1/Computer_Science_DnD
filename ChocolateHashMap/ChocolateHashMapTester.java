@@ -4,7 +4,7 @@ public class ChocolateHashMapTester {
         String value = "hello";
         String key = "HI-230";
 
-        map.put(key, value);
+        System.out.println(map.put(key, value));
         map.get(key);
         map.rehash(200);
         System.out.println(map.containsKey(key));
