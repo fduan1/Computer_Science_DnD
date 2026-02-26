@@ -59,7 +59,7 @@ public class ChocolateHashMap<K, V> {
 
     // Returns the current load factor (objCount / buckets)
     public double currentLoadFactor() {
-        return (double)size() / buckets.length;
+        return (double) size() / buckets.length;
     }
 
     // Return true if the key exists as a key in the map, otherwise false.
@@ -107,10 +107,10 @@ public class ChocolateHashMap<K, V> {
                 new ChocolateEntry<>(key, value));
         int bucket = whichBucket(key);
         buckets[whichBucket(key)].insertBefore(newBatch);
+        objectCount++;
         if (currentLoadFactor() > loadFactorLimit) {
             rehash(buckets.length * 2);
         }
-        objectCount++;
         return true;
     }
 
@@ -161,17 +161,18 @@ public class ChocolateHashMap<K, V> {
     @SuppressWarnings("unchecked")
     public void rehash(int newBucketCount) {
         // TODO: implement
-        BatchNode<ChocolateEntry<K, V>>[] newBuckets = (BatchNode<ChocolateEntry<K, V>>[]) new BatchNode[newBucketCount];
-        for (int i = 0; i < buckets.length; i++) {
-            if (!buckets[i].getNext().equals(buckets[i])) {
-                BatchNode<ChocolateEntry<K, V>> bucket = buckets[i];
+        BatchNode<ChocolateEntry<K, V>>[] oldBuckets = buckets;
+        buckets = (BatchNode<ChocolateEntry<K, V>>[]) new BatchNode[newBucketCount];
+        fillArrayWithSentinels(buckets);
+        for (int i = 0; i < oldBuckets.length; i++) {
+            if (!oldBuckets[i].getNext().equals(oldBuckets[i])) {
+                BatchNode<ChocolateEntry<K, V>> bucket = oldBuckets[i];
                 for (BatchNode<ChocolateEntry<K, V>> j = bucket.getNext(); j != bucket; j = j.getNext()) {
-                    BatchNode<ChocolateEntry<K,V>> copy = new BatchNode<>(j.getEntry());
-                    newBuckets[whichBucket(j.getEntry().getKey())].insertBefore(copy);
+                    BatchNode<ChocolateEntry<K, V>> copy = new BatchNode<>(j.getEntry());
+                    buckets[whichBucket(j.getEntry().getKey())].insertBefore(copy);
                 }
             }
         }
-        buckets = newBuckets;
     }
 
     // The output should be in the following format:
@@ -192,9 +193,10 @@ public class ChocolateHashMap<K, V> {
                 str += " { b" + i + ": ";
                 for (BatchNode<ChocolateEntry<K, V>> j = buckets[i].getNext(); j != buckets[i]; j = j.getNext()) {
                     str += "" + j.getEntry() + ",";
+                    str = str.substring(0, str.length() - 1);
+                    str += " ";
                 }
-                str = str.substring(0, str.length()-1);
-                str += " }";
+                str += "}";
             }
         }
         return str + "]";
