@@ -8,7 +8,29 @@ public class MarkovPredictionTester {
         System.out.println(weatherPrediction.predictNextState("Cloudy"));
         System.out.println(weatherPrediction.predictNextState("Cloudy"));
         System.out.println(weatherPrediction.predictNextState("Cloudy"));
-        System.out.println(weatherPrediction.predictNextState("Partly Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println(weatherPrediction.predictNextState("Cloudy"));
+        System.out.println("\n");
         System.out.println(weatherPrediction.predictNextState("Sunny"));
         System.out.println(weatherPrediction.predictNextState("Sunny"));
         System.out.println(weatherPrediction.predictNextState("Sunny"));
@@ -33,12 +55,26 @@ public class MarkovPredictionTester {
         System.out.println(weatherPrediction.predictNextState("Sunny"));
         System.out.println(weatherPrediction.predictNextState("Sunny"));
         System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
-        System.out.println(weatherPrediction.predictNextState("Sunny"));
+        System.out.println("\n");
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
+        System.out.println(weatherPrediction.predictNextState("Thunderstorm"));
 
+
+        // MarkovPrediction activitiesPrediction = new MarkovPrediction();
+
+        // System.out.println(activitiesPrediction.predictNextState("Sleeping"));
     }
 }
