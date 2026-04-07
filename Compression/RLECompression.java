@@ -30,9 +30,25 @@ public class RLECompression {
 
         while (br.ready()) {
             char c = (char) br.read();
-            // TO-DO
+            // TO-DO:
             // Now here: do things with the char you just read, dependent on the char you
             // just read
+            if (c == previousChar) {
+                count++;
+            } else {
+                if (count > 1) {
+                    pw.write("" + previousChar + previousChar + count);
+                } else {
+                    pw.write("" + previousChar);
+                }
+                count = 1;
+            }
+            previousChar = c;
+        }
+        if (count > 1) {
+            pw.write("" + previousChar + previousChar + count);
+        } else {
+            pw.write("" + previousChar);
         }
 
         br.close();
@@ -48,9 +64,21 @@ public class RLECompression {
 
         while (br.ready()) {
             char c = (char) br.read();
-            // TO-DO
+            // TO-DO:
             // Now here: do things with the char you just read, dependent on the char you
             // just read
+            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+                if (c == previousChar) {
+                    int count = (char) br.read() - '0';
+                    for (int i = 0; i < count; i++) {
+                        pw.write("" + c);
+                    }
+                    previousChar = (char) br.read();
+                } else {
+                    pw.write(previousChar);
+                    previousChar = c;
+                }
+            } 
         }
 
         br.close();
