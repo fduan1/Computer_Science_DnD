@@ -1,7 +1,7 @@
 public class MiniGPTTester {
     public static void main(String[] args) {
-        MiniGPT theGreaterGatsby = new MiniGPT("thegreatgatsby.txt", 8);
-        theGreaterGatsby.generateText("The Greater Gatsby", 10000);
+        MiniGPT theGreaterGatsby = new MiniGPT("lawsuit.txt", 8);
+        theGreaterGatsby.generateText("new lawsuit", 10000);
     }
 
 }

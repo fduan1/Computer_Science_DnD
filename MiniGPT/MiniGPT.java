@@ -13,6 +13,7 @@ import java.util.HashMap;
 public class MiniGPT {
 	HashMap<String, ArrayList<String>> probabilities;
 	int chainOrder;
+	String firstLine;
 
 
 	public MiniGPT(String fileName, int chainOrder) {
@@ -21,6 +22,7 @@ public class MiniGPT {
 			HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 			int charAsInt;
 			String charSequence = "";
+			this.firstLine = reader.readLine();
 			// Read until the end of the stream (-1 is returned)
 			while ((charAsInt = reader.read()) != -1) {
 				// Cast the integer value to a character
@@ -45,7 +47,7 @@ public class MiniGPT {
 
 	public void generateText(String outputFileName, int numChars) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
-			String output = "Then wear the gold hat, if that will move her;".substring(0, chainOrder);
+			String output = "Defendant Lucca Van Der Woude intentionally made harmful or offensive contact".substring(0, chainOrder);
 			for (int i = chainOrder; i < numChars; i++) {
 				output += predictNextState(output.substring(i - chainOrder, i));
 			}
