@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class RLECompression {
 
@@ -78,7 +80,7 @@ public class RLECompression {
                     pw.write(previousChar);
                     previousChar = c;
                 }
-            } 
+            }
         }
 
         br.close();
@@ -99,13 +101,31 @@ public class RLECompression {
         br.close();
 
         String[] rotations = new String[originalText.length()];
-        rotations[0] = originalText.toString();
-        // TO-DO
+        String encodedText = "";
+        // TO-DO:
         // Now do the Burrows-Wheeler Transform
-
+        for (int i = 1; i < originalText.length() + 1; i++) {
+            rotations[i - 1] = originalText.substring(i) + '~' + originalText.substring(0, i);
+        }
+        rotations = alphabetize(rotations);
+        for (int i = 0; i < originalText.length(); i++) {
+            encodedText += "" + rotations[i].charAt(originalText.length());
+        }
         // And then write the transformation into a file
         PrintWriter pw = new PrintWriter(fileName + ".bw");
+        pw.write(encodedText);
         pw.close();
+    }
+
+    public static String[] alphabetize(String[] original) {
+        ArrayList<String> alphabetized = new ArrayList<>();
+        for (String str : original) {
+            alphabetized.add(str);
+        }
+        alphabetized.sort(String::compareTo);
+        String[] sorted = new String[original.length];
+        sorted = alphabetized.toArray(sorted);
+        return sorted;
     }
 
     public static void invertBWTransform(String fileName) throws IOException {
