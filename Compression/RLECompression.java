@@ -69,7 +69,7 @@ public class RLECompression {
             // TO-DO:
             // Now here: do things with the char you just read, dependent on the char you
             // just read
-            if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
+            if (!(c >= '0' && c <= '9')) {
                 if (c == previousChar) {
                     int count = (char) br.read() - '0';
                     for (int i = 0; i < count; i++) {
@@ -82,6 +82,7 @@ public class RLECompression {
                 }
             }
         }
+        pw.write(previousChar);
 
         br.close();
         pw.close();
@@ -105,7 +106,7 @@ public class RLECompression {
         // TO-DO:
         // Now do the Burrows-Wheeler Transform
         for (int i = 1; i < originalText.length() + 1; i++) {
-            rotations[i - 1] = originalText.substring(i) + '~' + originalText.substring(0, i);
+            rotations[i - 1] = new String(originalText.substring(i) + '\0' + originalText.substring(0, i));
         }
         rotations = alphabetize(rotations);
         for (int i = 0; i < originalText.length(); i++) {
@@ -139,16 +140,24 @@ public class RLECompression {
         }
         br.close();
 
-        StringBuilder[] reconstructions = new StringBuilder[originalText.length()];
+        String[] reconstructions = new String[originalText.length()];
         for (int i = 0; i < reconstructions.length; i++) {
-            reconstructions[i] = new StringBuilder("" + originalText.charAt(i));
+            reconstructions[i] = "" + originalText.charAt(i);
         }
         // TO-DO
         // Now undo the Burrows-Wheeler transform
+        for (int i = 0; i < originalText.length()-1; i++) {
+            reconstructions = alphabetize(reconstructions);
+            for (int j = 0; j < reconstructions.length; j++) {
+                reconstructions[j] = originalText.charAt(j) + reconstructions[j].toString();
+            }
+        }
 
+        String decodedText = reconstructions[originalText.length()-1];
         // TO-DO
         // And write the appropriate reconstruction into the file, without the null char
         PrintWriter pw = new PrintWriter(fileName.substring(0, fileName.length() - 3));
+        pw.write(decodedText.toString());
         pw.close();
     }
 }
