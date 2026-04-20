@@ -5,26 +5,26 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class HuffmansCompression {
 
 
-    public static void encode(String fileName) throws IOException {
+    public static HashMap<String, Integer> encode(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
-        StringBuilder originalText = new StringBuilder();
+        HashMap<String, Integer> frequencies = new HashMap<>();
+
         while (br.ready()) {
-            char c = (char) br.read();
-            originalText.append(c);
+            String c = "" + (char) br.read();
+            if (!frequencies.containsKey(c)) {
+                frequencies.put(c, 1);
+            } else {
+                Integer oldFrequency = frequencies.get(c);
+                frequencies.replace(c, oldFrequency + 1);
+            }
         }
         br.close();
-
-        new ArrayList<>()
-        
-        for (int i = 0; i < originalText.length(); i++) {
-            if (originalText[i])
-        }
-
-
+        return frequencies;
     }
 }
