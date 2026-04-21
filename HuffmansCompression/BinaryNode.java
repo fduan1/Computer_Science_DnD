@@ -1,0 +1,109 @@
+
+public class BinaryNode<E extends Comparable<E>> {
+	private E value;
+	private int freq;
+	private BinaryNode<E> left;
+	private BinaryNode<E> right;
+	private BinaryNode<E> parent;
+	private int binary;
+
+	public BinaryNode(E value) {
+		this.value = value;
+		this.freq = null;
+		this.left = null;
+		this.right = null;
+		this.parent = null;
+		this.binary = null;
+	}
+
+	public E getValue() {
+		return value;
+	}
+
+	public int getFreq() {
+		return freq;
+	}
+
+	public BinaryNode<E> getLeft() {
+		return left;
+	}
+
+	public BinaryNode<E> getRight() {
+		return right;
+	}
+
+	public BinaryNode<E> getParent() {
+		return parent;
+	}
+
+	public int getBinary() {
+		return binary;
+	}
+
+	public void setValue(E value) {
+		this.value = value;
+	}
+
+	public void setFreq(int freq) {
+		this.freq = freq;
+	}
+
+	public void setLeft(BinaryNode<E> left) {
+		this.left = left;
+	}
+
+	public void setRight(BinaryNode<E> right) {
+		this.right = right;
+	}
+
+	public void setParent(BinaryNode<E> parent) {
+		this.parent = parent;
+	}
+
+	public void setBinary(int binary) {
+		this.binary = binary;
+	}
+
+	public boolean hasLeft() {
+		return left != null;
+	}
+
+	public boolean hasRight() {
+		return right != null;
+	}
+
+	public boolean isLeaf() {
+		return !hasLeft() && !hasRight();
+	}
+
+	public boolean isLeft() {
+		if (this.parent == null) {
+			return false;
+		}
+		if (this.getParent().getLeft() == null) {
+			return false;
+		}
+		if (this.getParent().getLeft().equals(this)) {
+			return true;
+		}
+		return true;
+	}
+
+	public boolean isRight() {
+		if (this.parent == null) {
+			return false;
+		}
+		if (this.getParent().getRight() == null) {
+			return false;
+		}
+		if (this.getParent().getRight().equals(this)) {
+			return true;
+		}
+		return false;
+	}
+
+	public String toString() {
+		return value.toString();
+	}
+
+}

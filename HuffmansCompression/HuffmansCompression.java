@@ -24,6 +24,10 @@ public class HuffmansCompression {
                 frequencies.replace(c, oldFrequency + 1);
             }
         }
+        
+        
+        
+
         br.close();
         return frequencies;
     }
