@@ -51,17 +51,33 @@ public class HuffmansCompression {
         return freqList.getLast();
     }
 
-    public static void assignBinary(BinaryNode<String> node) {
-       String definition = "";
-        if (node.hasParent()) {
-            definition = "" + node.getParent().getBinary();
+    public static String assignBinary(BinaryNode<String> node) {
+        if (node != null) {
+            String definition = "";
+            if (node.hasParent()) {
+                definition = "" + node.getParent().getBinary();
+            }
+            if (node.isLeft()) {
+                definition += "0";
+            } else if (node.isRight()) {
+                definition += "1";
+            }
+            node.setBinary(definition);
+
+
+            if (node.isLeaf()) {
+                return node.getBinary() + "\n";
+            }
+            return assignBinary(node.getLeft()) + assignBinary(node.getRight());
         }
-        if (node.isLeft()) {
-            definition += "0";
-        } else if (node.isRight()) {
-            definition += "1";
-        }
-        node.setBinary(definition);
+        return "";
+
+    }
+
+    public static void createDictionary(String fileName, String str) throws IOException {
+        PrintWriter pw = new PrintWriter(fileName + ".bw");
+        pw.write(str);
+        pw.close();
     }
 
     public static void sortedAdd(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj) {

@@ -6,7 +6,7 @@ public class HuffmansCompressionTester {
         try {
             ArrayList<BinaryNode<String>> freq = HuffmansCompression.createFrequencyList("text.txt");
             System.out.println(freq);
-            System.out.println(HuffmansCompression.createTree(freq));
+            System.out.println(HuffmansCompression.assignBinary(HuffmansCompression.createTree(freq)));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
