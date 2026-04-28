@@ -96,7 +96,7 @@ public class BinaryNode<E extends Comparable<E>> {
 		if (this.getParent().getLeft().equals(this)) {
 			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public boolean isRight() {

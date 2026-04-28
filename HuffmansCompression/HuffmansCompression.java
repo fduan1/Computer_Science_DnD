@@ -11,6 +11,10 @@ import java.util.LinkedList;
 
 public class HuffmansCompression {
 
+    public static void compress(String fileName) throws IOException {
+        createDictionary(fileName + "Dictionary" + ".txt", assignBinary(createTree(createFrequencyList(fileName))));
+    }
+
     public static ArrayList<BinaryNode<String>> createFrequencyList(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
@@ -43,6 +47,8 @@ public class HuffmansCompression {
                 BinaryNode<String> newNode = new BinaryNode<String>(null, newFreq);
                 newNode.setLeft(freqList.remove(i));
                 newNode.setRight(freqList.remove(i));
+                newNode.getLeft().setParent(newNode);
+                newNode.getRight().setParent(newNode);
                 sortedAdd(freqList, newNode);
                 i--;
             }
@@ -52,26 +58,21 @@ public class HuffmansCompression {
     }
 
     public static String assignBinary(BinaryNode<String> node) {
-        if (node != null) {
-            String definition = "";
-            if (node.hasParent()) {
-                definition = "" + node.getParent().getBinary();
-            }
-            if (node.isLeft()) {
-                definition += "0";
-            } else if (node.isRight()) {
-                definition += "1";
-            }
-            node.setBinary(definition);
-
-
-            if (node.isLeaf()) {
-                return node.getBinary() + "\n";
-            }
-            return assignBinary(node.getLeft()) + assignBinary(node.getRight());
+        String definition = "";
+        if (node.hasParent()) {
+            definition = "" + node.getParent().getBinary();
         }
-        return "";
+        if (node.isLeft()) {
+            definition += "0";
+        } else if (node.isRight()) {
+            definition += "1";
+        }
+        node.setBinary(definition);
 
+        if (node.isLeaf()) {
+            return node.getValue() + ", " + node.getBinary() + "\n";
+        }
+        return assignBinary(node.getLeft()) + assignBinary(node.getRight());
     }
 
     public static void createDictionary(String fileName, String str) throws IOException {
