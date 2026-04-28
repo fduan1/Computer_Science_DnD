@@ -1,27 +1,23 @@
 
 public class BinaryNode<E extends Comparable<E>> {
 	private E value;
-	private int freq;
 	private BinaryNode<E> left;
 	private BinaryNode<E> right;
 	private BinaryNode<E> parent;
-	private int binary;
+	private String binary;
+	private Integer frequency;
 
-	public BinaryNode(E value) {
+	public BinaryNode(E value, int freq) {
 		this.value = value;
-		this.freq = null;
 		this.left = null;
 		this.right = null;
 		this.parent = null;
 		this.binary = null;
+		frequency = freq;
 	}
 
 	public E getValue() {
 		return value;
-	}
-
-	public int getFreq() {
-		return freq;
 	}
 
 	public BinaryNode<E> getLeft() {
@@ -36,16 +32,12 @@ public class BinaryNode<E extends Comparable<E>> {
 		return parent;
 	}
 
-	public int getBinary() {
+	public String getBinary() {
 		return binary;
 	}
 
 	public void setValue(E value) {
 		this.value = value;
-	}
-
-	public void setFreq(int freq) {
-		this.freq = freq;
 	}
 
 	public void setLeft(BinaryNode<E> left) {
@@ -60,8 +52,22 @@ public class BinaryNode<E extends Comparable<E>> {
 		this.parent = parent;
 	}
 
-	public void setBinary(int binary) {
+	public void setBinary(String binary) {
 		this.binary = binary;
+	}
+
+	/**
+	 * @return the frequency
+	 */
+	public Integer getFrequency() {
+		return frequency;
+	}
+
+	/**
+	 * @param frequency the frequency to set
+	 */
+	public void setFrequency(int frequency) {
+		this.frequency = (Integer) frequency;
 	}
 
 	public boolean hasLeft() {
@@ -70,6 +76,10 @@ public class BinaryNode<E extends Comparable<E>> {
 
 	public boolean hasRight() {
 		return right != null;
+	}
+
+	public boolean hasParent() {
+		return parent != null;
 	}
 
 	public boolean isLeaf() {
@@ -103,7 +113,7 @@ public class BinaryNode<E extends Comparable<E>> {
 	}
 
 	public String toString() {
-		return value.toString();
+		return "[" + value + ", " + frequency + "]";
 	}
 
 }

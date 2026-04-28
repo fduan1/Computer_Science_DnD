@@ -11,8 +11,7 @@ import java.util.LinkedList;
 
 public class HuffmansCompression {
 
-
-    public static ArrayList<ListNode<String>> encode(String fileName) throws IOException {
+    public static ArrayList<BinaryNode<String>> createFrequencyList(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
         HashMap<String, Integer> frequencies = new HashMap<>();
@@ -27,18 +26,45 @@ public class HuffmansCompression {
             }
         }
         ArrayList<String> keys = new ArrayList<>(frequencies.keySet());
-        ArrayList<ListNode<String>> sortedFrequencies = new ArrayList<>();
+        ArrayList<BinaryNode<String>> sortedFrequencies = new ArrayList<>();
         for (String key : keys) {
-            sortedAdd(sortedFrequencies, new ListNode<String>(key, frequencies.get(key)));
+            sortedAdd(sortedFrequencies, new BinaryNode<String>(key, frequencies.get(key)));
         }
-
-
+        sortedAdd(sortedFrequencies, new BinaryNode<String>("EOF", 1));
 
         br.close();
         return sortedFrequencies;
     }
 
-    public static void sortedAdd(ArrayList<ListNode<String>> list, ListNode<String> obj) {
+    public static BinaryNode<String> createTree(ArrayList<BinaryNode<String>> freqList) {
+        for (int i = 0; i < freqList.size() - 1; i++) {
+            if (!freqList.get(i).hasParent()) {
+                int newFreq = freqList.get(i).getFrequency() + freqList.get(i + 1).getFrequency();
+                BinaryNode<String> newNode = new BinaryNode<String>(null, newFreq);
+                newNode.setLeft(freqList.remove(i));
+                newNode.setRight(freqList.remove(i));
+                sortedAdd(freqList, newNode);
+                i--;
+            }
+
+        }
+        return freqList.getLast();
+    }
+
+    public static void assignBinary(BinaryNode<String> node) {
+       String definition = "";
+        if (node.hasParent()) {
+            definition = "" + node.getParent().getBinary();
+        }
+        if (node.isLeft()) {
+            definition += "0";
+        } else if (node.isRight()) {
+            definition += "1";
+        }
+        node.setBinary(definition);
+    }
+
+    public static void sortedAdd(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj) {
         if (list.size() == 0) {
             list.add(0, obj);
         } else if (obj.getFrequency() < list.get(0).getFrequency()) {
@@ -50,12 +76,15 @@ public class HuffmansCompression {
         }
     }
 
-    public static int binarySearch(ArrayList<ListNode<String>> list, ListNode<String> obj, int low,
+    public static int binarySearch(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj, int low,
             int high) {
         if (high >= low) {
             int mid = (high + low) / 2;
+            if ((high + low) % 2 == 1) {
+                mid++;
+            }
             if (high - low <= 2) {
-                return mid;
+                return high;
             }
             if (obj.getFrequency() < list.get(mid).getFrequency()) {
                 return binarySearch(list, obj, low, mid - 1);
