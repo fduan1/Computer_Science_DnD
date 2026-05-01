@@ -9,8 +9,8 @@ public class HuffmansCompressionTester {
             System.out.println(HuffmansCompression.assignBinary(HuffmansCompression.createTree(freq)));
             HuffmansCompression.compress("text.txt");
             System.out.println(HuffmansCompression.assignBinary(
-                    HuffmansCompression.createTree(HuffmansCompression.createFrequencyList("morgan.txt"))));
-            HuffmansCompression.compress("morgan.txt");
+                    HuffmansCompression.createTree(HuffmansCompression.createFrequencyList("theiss.txt"))));
+            HuffmansCompression.compress("theiss.txt");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
