@@ -10,9 +10,13 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class HuffmansCompression {
+    static HashMap<String, String> dictionary = new HashMap<>();
+
 
     public static void compress(String fileName) throws IOException {
-        createDictionary(fileName + "Dictionary" + ".txt", assignBinary(createTree(createFrequencyList(fileName))));
+        ArrayList<BinaryNode<String>> freqs = createFrequencyList(fileName);
+        createDictionary(fileName, assignBinary(createTree(freqs)));
+        encode(fileName);
     }
 
     public static ArrayList<BinaryNode<String>> createFrequencyList(String fileName) throws IOException {
@@ -68,15 +72,15 @@ public class HuffmansCompression {
             definition += "1";
         }
         node.setBinary(definition);
-
         if (node.isLeaf()) {
+            dictionary.put(node.getValue(), node.getBinary());
             return node.getValue() + ", " + node.getBinary() + "\n";
         }
         return assignBinary(node.getLeft()) + assignBinary(node.getRight());
     }
 
     public static void createDictionary(String fileName, String str) throws IOException {
-        PrintWriter pw = new PrintWriter(fileName + ".bw");
+        PrintWriter pw = new PrintWriter(fileName + ".dty");
         pw.write(str);
         pw.close();
     }
@@ -93,6 +97,25 @@ public class HuffmansCompression {
         }
     }
 
+    public static void encode(String fileName) throws IOException{
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        PrintWriter pw = new PrintWriter(fileName + ".hc");
+
+        String encodedText = "";
+        while (br.ready()) {
+            encodedText += dictionary.get("" + (char)br.read());
+        }
+
+        pw.write(dictionary.get("EOF"));
+
+        while (!(encodedText.length() % 8 == 0)) {
+            pw.write("0");
+        }
+        
+        pw.close();
+        br.close();
+    }
+
     public static int binarySearch(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj, int low,
             int high) {
         if (high >= low) {
@@ -100,13 +123,13 @@ public class HuffmansCompression {
             if ((high + low) % 2 == 1) {
                 mid++;
             }
-            if (high - low <= 2) {
+            if (high - low <= 1) {
                 return high;
             }
-            if (obj.getFrequency() < list.get(mid).getFrequency()) {
+            if (obj.getFrequency() <= list.get(mid).getFrequency()) {
                 return binarySearch(list, obj, low, mid - 1);
             }
-            if (obj.getFrequency() > list.get(mid).getFrequency()) {
+            if (obj.getFrequency() >= list.get(mid).getFrequency()) {
                 return binarySearch(list, obj, mid + 1, high);
             }
         }
