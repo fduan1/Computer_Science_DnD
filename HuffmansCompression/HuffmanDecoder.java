@@ -10,10 +10,13 @@ public class HuffmanDecoder {
     static HashMap<String, String> dictionary = new HashMap<>();
 
     public static void decode(String fileName) throws IOException {
+        stringToBinary(fileName);
         BufferedReader br = new BufferedReader(new FileReader(fileName));
-        PrintWriter pw = new PrintWriter(fileName + ".dty");
+        PrintWriter pw = new PrintWriter(fileName + ".dc");
         String s = "";
         String decoded = "";
+        recreateDictionary(fileName.substring(0, fileName.length() - 3) + ".dty");
+        HashMap<String, String> d = dictionary;
         while (br.ready()) {
             s += "" + (char) br.read();
             if (dictionary.containsKey(s)) {
@@ -21,33 +24,45 @@ public class HuffmanDecoder {
                     decoded += dictionary.get(s);
                     s = "";
                 } else {
-                    br.close();
+                    break;
                 }
             }
         }
 
         pw.write(decoded);
-
+        br.close();
         pw.close();
     }
 
     public static void recreateDictionary(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
-
-        String c = "";
-        String nx = "";
-        int index = 0;
         while (br.ready()) {
-            c = "" + (char) br.read();
-            index++;
-            nx = "" + (char) br.read();
-            index++;
-            if ((c + nx).equals(", ")) {
-                String line = br.readLine();
-                dictionary.put(line.substring(index), line.substring(index - 2)) ;
+            String line = br.readLine();
+            String[] key = line.split(", ");
+            if (key.length != 1) {
+                dictionary.put(key[1], key[0]);
+            } else {
+                String code =br.readLine().substring(2);
+                dictionary.put(code, "\n");
             }
         }
-
         br.close();
     }
+
+    public static void stringToBinary(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String chars = "";
+        while (br.ready()) {
+            String ch = Integer.toBinaryString(br.read());
+            while (ch.length() != 8) {
+                ch = "0" + ch;
+            }
+            chars += ch;
+        }
+        PrintWriter pw = new PrintWriter(fileName);
+        pw.write(chars);
+        br.close();
+        pw.close();
+    }
+
 }

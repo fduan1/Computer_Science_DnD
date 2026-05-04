@@ -12,6 +12,9 @@ import java.util.LinkedList;
 public class HuffmansCompression {
     static HashMap<String, String> dictionary = new HashMap<>();
 
+    public static void encodeFile(String fileName) {
+        
+    }
 
     public static void compress(String fileName) throws IOException {
         ArrayList<BinaryNode<String>> freqs = createFrequencyList(fileName);
@@ -106,15 +109,26 @@ public class HuffmansCompression {
             encodedText += dictionary.get("" + (char)br.read());
         }
 
-        pw.write(dictionary.get("EOF"));
+        encodedText += (dictionary.get("EOF"));
 
-        while (!(encodedText.length() % 8 == 0)) {
-            pw.write("0");
+        while (encodedText.length() % 8 != 0) {
+            encodedText += "0";
         }
+        pw.write(binaryToString(encodedText));
         
         pw.close();
         br.close();
     }
+
+    public static String binaryToString(String binary) {
+        String chars = "";
+        for (int i = 8; i < binary.length(); i += 8) {
+            String bt = binary.substring(i - 8, i);
+            chars += (char) Integer.parseInt(bt, 2);
+        }
+        return chars;
+    }
+
 
     public static int binarySearch(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj, int low,
             int high) {
