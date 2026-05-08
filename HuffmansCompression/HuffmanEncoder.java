@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
 
-public class HuffmansCompression {
+public class HuffmanEncoder {
     static HashMap<String, String> dictionary = new HashMap<>();
 
     public static void compress(String fileName) throws IOException {

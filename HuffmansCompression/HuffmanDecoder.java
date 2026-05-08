@@ -10,13 +10,13 @@ public class HuffmanDecoder {
     // static HashMap<String, String> dictionary = new HashMap<>();
 
     public static void decode(String fileName) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName + ".dc");
         String s = "";
         String decoded = "";
         HashMap<String, String> dictionary = recreateDictionary(fileName);
-        // HashMap<String, String> d = dictionary;
         stringToBinary(fileName, dictionary);
+        BufferedReader br = new BufferedReader(new FileReader(fileName + ".tmp"));
+
         while (br.ready()) {
             s += "" + (char) br.read();
             if (dictionary.containsKey(s)) {
@@ -55,7 +55,8 @@ public class HuffmanDecoder {
         return dictionary;
     }
 
-    public static void stringToBinary(String fileName, HashMap<String, String> dictionary) throws IOException {
+    public static void stringToBinary(String fileName, HashMap<String, String> dictionary)
+            throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String chars = "";
         for (int i = 0; i < dictionary.size() + 2; i++) {
@@ -71,7 +72,7 @@ public class HuffmanDecoder {
             }
             chars += ch;
         }
-        PrintWriter pw = new PrintWriter(fileName);
+        PrintWriter pw = new PrintWriter(fileName + ".tmp");
         pw.write(chars);
         br.close();
         pw.close();
