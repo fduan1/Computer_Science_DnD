@@ -12,14 +12,10 @@ import java.util.LinkedList;
 public class HuffmansCompression {
     static HashMap<String, String> dictionary = new HashMap<>();
 
-    public static void encodeFile(String fileName) {
-        
-    }
-
     public static void compress(String fileName) throws IOException {
         ArrayList<BinaryNode<String>> freqs = createFrequencyList(fileName);
-        createDictionary(fileName, assignBinary(createTree(freqs)));
-        encode(fileName);
+        encode(fileName, assignBinary(createTree(freqs)));
+        // encode(fileName);
     }
 
     public static ArrayList<BinaryNode<String>> createFrequencyList(String fileName) throws IOException {
@@ -100,7 +96,7 @@ public class HuffmansCompression {
         }
     }
 
-    public static void encode(String fileName) throws IOException{
+    public static void encode(String fileName, String str) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName + ".hc");
 
@@ -114,6 +110,9 @@ public class HuffmansCompression {
         while (encodedText.length() % 8 != 0) {
             encodedText += "0";
         }
+
+        pw.write(str + "\n\n");
+
         pw.write(binaryToString(encodedText));
         
         pw.close();
@@ -122,7 +121,7 @@ public class HuffmansCompression {
 
     public static String binaryToString(String binary) {
         String chars = "";
-        for (int i = 8; i < binary.length(); i += 8) {
+        for (int i = 8; i < binary.length() + 8; i += 8) {
             String bt = binary.substring(i - 8, i);
             chars += (char) Integer.parseInt(bt, 2);
         }

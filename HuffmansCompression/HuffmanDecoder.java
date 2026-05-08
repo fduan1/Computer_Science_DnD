@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HuffmanDecoder {
-    static HashMap<String, String> dictionary = new HashMap<>();
+    // static HashMap<String, String> dictionary = new HashMap<>();
 
     public static void decode(String fileName) throws IOException {
-        stringToBinary(fileName);
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName + ".dc");
         String s = "";
         String decoded = "";
-        recreateDictionary(fileName.substring(0, fileName.length() - 3) + ".dty");
-        HashMap<String, String> d = dictionary;
+        HashMap<String, String> dictionary = recreateDictionary(fileName);
+        // HashMap<String, String> d = dictionary;
+        stringToBinary(fileName, dictionary);
         while (br.ready()) {
             s += "" + (char) br.read();
             if (dictionary.containsKey(s)) {
@@ -34,24 +34,36 @@ public class HuffmanDecoder {
         pw.close();
     }
 
-    public static void recreateDictionary(String fileName) throws IOException {
+    public static HashMap<String, String> recreateDictionary(String fileName) throws IOException {
+        HashMap<String, String> dictionary = new HashMap<>();
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         while (br.ready()) {
             String line = br.readLine();
             String[] key = line.split(", ");
-            if (key.length != 1) {
-                dictionary.put(key[1], key[0]);
-            } else {
-                String code =br.readLine().substring(2);
+            if (key.length == 1) {
+                String code = br.readLine();
+                if (code == null || code.equals("")) {
+                    break;
+                }
+                code = code.substring(2);
                 dictionary.put(code, "\n");
+            } else if (key.length != 1) {
+                dictionary.put(key[1], key[0]);
             }
         }
         br.close();
+        return dictionary;
     }
 
-    public static void stringToBinary(String fileName) throws IOException {
+    public static void stringToBinary(String fileName, HashMap<String, String> dictionary) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String chars = "";
+        for (int i = 0; i < dictionary.size() + 2; i++) {
+            br.readLine();
+        }
+        if (dictionary.containsValue("\n")) {
+            br.readLine();
+        }
         while (br.ready()) {
             String ch = Integer.toBinaryString(br.read());
             while (ch.length() != 8) {
