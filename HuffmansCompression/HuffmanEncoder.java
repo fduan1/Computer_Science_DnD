@@ -100,30 +100,30 @@ public class HuffmanEncoder {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName + ".hc");
 
-        String encodedText = "";
+        StringBuffer encodedText = new StringBuffer();
         while (br.ready()) {
-            encodedText += dictionary.get("" + (char)br.read());
+            encodedText.append(dictionary.get("" + (char)br.read()));
         }
 
-        encodedText += (dictionary.get("EOF"));
+        encodedText.append(dictionary.get("EOF"));
 
         while (encodedText.length() % 8 != 0) {
-            encodedText += "0";
+            encodedText.append("0");
         }
 
         pw.write(str + "\n\n");
 
-        pw.write(binaryToString(encodedText));
+        pw.write(binaryToString(encodedText).toString());
         
         pw.close();
         br.close();
     }
 
-    public static String binaryToString(String binary) {
-        String chars = "";
+    public static StringBuffer binaryToString(StringBuffer binary) {
+        StringBuffer chars = new StringBuffer();
         for (int i = 8; i < binary.length() + 8; i += 8) {
-            String bt = binary.substring(i - 8, i);
-            chars += (char) Integer.parseInt(bt, 2);
+            String bt = binary.subSequence(i - 8, i).toString();
+            chars.append((char) Integer.parseInt(bt.toString(), 2));
         }
         return chars;
     }

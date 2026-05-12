@@ -11,25 +11,25 @@ public class HuffmanDecoder {
 
     public static void decode(String fileName) throws IOException {
         PrintWriter pw = new PrintWriter(fileName + ".dc");
-        String s = "";
-        String decoded = "";
+        StringBuffer s = new StringBuffer();
+        StringBuffer decoded = new StringBuffer();
         HashMap<String, String> dictionary = recreateDictionary(fileName);
         stringToBinary(fileName, dictionary);
         BufferedReader br = new BufferedReader(new FileReader(fileName + ".tmp"));
 
         while (br.ready()) {
-            s += "" + (char) br.read();
-            if (dictionary.containsKey(s)) {
-                if (!dictionary.get(s).equals("EOF")) {
-                    decoded += dictionary.get(s);
-                    s = "";
+            s.append((char) br.read());
+            if (dictionary.containsKey(s.toString())) {
+                if (!dictionary.get(s.toString()).equals("EOF")) {
+                    decoded.append(dictionary.get(s.toString()));
+                    s = new StringBuffer();
                 } else {
                     break;
                 }
             }
         }
 
-        pw.write(decoded);
+        pw.write(decoded.toString());
         br.close();
         pw.close();
     }
@@ -58,7 +58,7 @@ public class HuffmanDecoder {
     public static void stringToBinary(String fileName, HashMap<String, String> dictionary)
             throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
-        String chars = "";
+        StringBuffer chars = new StringBuffer();
         for (int i = 0; i < dictionary.size() + 2; i++) {
             br.readLine();
         }
@@ -70,10 +70,10 @@ public class HuffmanDecoder {
             while (ch.length() != 8) {
                 ch = "0" + ch;
             }
-            chars += ch;
+            chars.append(ch);
         }
         PrintWriter pw = new PrintWriter(fileName + ".tmp");
-        pw.write(chars);
+        pw.write(chars.toString());
         br.close();
         pw.close();
     }
