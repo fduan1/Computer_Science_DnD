@@ -24,12 +24,12 @@ public class HuffmanEncoder {
         HashMap<String, Integer> frequencies = new HashMap<>();
 
         while (br.ready()) {
-            String c = "" + (char) br.read();
-            if (!frequencies.containsKey(c)) {
-                frequencies.put(c, 1);
+            StringBuffer c = new StringBuffer().append(((char) br.read()));
+            if (!frequencies.containsKey(c.toString())) {
+                frequencies.put(c.toString(), 1);
             } else {
-                Integer oldFrequency = frequencies.get(c);
-                frequencies.replace(c, oldFrequency + 1);
+                Integer oldFrequency = frequencies.get(c.toString());
+                frequencies.replace(c.toString(), oldFrequency + 1);
             }
         }
         ArrayList<String> keys = new ArrayList<>(frequencies.keySet());

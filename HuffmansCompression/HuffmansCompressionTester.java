@@ -8,8 +8,8 @@ public class HuffmansCompressionTester {
             // HuffmansCompression.createFrequencyList("text.txt");
             // System.out.println(freq);
             // System.out.println(HuffmansCompression.assignBinary(HuffmansCompression.createTree(freq)));
-            // HuffmanEncoder.compress("text.txt");
-            // HuffmanDecoder.decode("text.txt.hc");
+            HuffmanEncoder.compress("text.txt");
+            HuffmanDecoder.decode("text.txt.hc");
 
             // HuffmanEncoder.compress("theiss.txt");
             // HuffmanDecoder.decode("theiss.txt.hc");
@@ -21,7 +21,9 @@ public class HuffmansCompressionTester {
             // 25-26.txt.hc");
 
             // HuffmanEncoder.compress("gatsby.txt.hc");
-            HuffmanDecoder.decode("gatsby.txt.hc");
+
+            // HuffmanEncoder.compress("img.txt");
+            // HuffmanDecoder.decode("img.txt.hc");
 
 
 
