@@ -24,12 +24,12 @@ public class HuffmanEncoder {
         HashMap<String, Integer> frequencies = new HashMap<>();
 
         while (br.ready()) {
-            StringBuffer c = new StringBuffer().append(((char) br.read()));
-            if (!frequencies.containsKey(c.toString())) {
-                frequencies.put(c.toString(), 1);
+            String c = "" + (char) br.read();
+            if (!frequencies.containsKey(c)) {
+                frequencies.put(c, 1);
             } else {
-                Integer oldFrequency = frequencies.get(c.toString());
-                frequencies.replace(c.toString(), oldFrequency + 1);
+                Integer oldFrequency = frequencies.get(c);
+                frequencies.replace(c, oldFrequency + 1);
             }
         }
         ArrayList<String> keys = new ArrayList<>(frequencies.keySet());
@@ -72,16 +72,14 @@ public class HuffmanEncoder {
         }
         node.setBinary(definition);
         if (node.isLeaf()) {
+            if (node.getBinary().equals("1111010110") || node.getBinary().equals("00")) {
+                int val = (int) node.getValue().charAt(0);
+                System.out.print(val);
+            }
             dictionary.put(node.getValue(), node.getBinary());
             return node.getValue() + ", " + node.getBinary() + "\n";
         }
         return assignBinary(node.getLeft()) + assignBinary(node.getRight());
-    }
-
-    public static void createDictionary(String fileName, String str) throws IOException {
-        PrintWriter pw = new PrintWriter(fileName + ".dty");
-        pw.write(str);
-        pw.close();
     }
 
     public static void sortedAdd(ArrayList<BinaryNode<String>> list, BinaryNode<String> obj) {

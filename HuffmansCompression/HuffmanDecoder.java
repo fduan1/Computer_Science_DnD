@@ -45,8 +45,14 @@ public class HuffmanDecoder {
                 if (code == null || code.equals("")) {
                     break;
                 }
-                code = code.substring(2);
-                dictionary.put(code, "\n");
+                if (!dictionary.containsValue("\n")) {
+                    code = code.substring(2);
+                    dictionary.put(code, "\n");
+                } else {
+                    code = code.substring(2);
+                    dictionary.put(code, "" + (char) 13);
+
+                }
             } else if (key.length != 1) {
                 dictionary.put(key[1], key[0]);
             }
@@ -65,9 +71,13 @@ public class HuffmanDecoder {
         if (dictionary.containsValue("\n")) {
             br.readLine();
         }
+        String val = "" + ((char) 13);
+        if (dictionary.containsValue(val)) {
+            br.readLine();
+        }
         while (br.ready()) {
             String ch = Integer.toBinaryString(br.read());
-            while (ch.length() != 8) {
+            while (ch.length() % 8 != 0) {
                 ch = "0" + ch;
             }
             chars.append(ch);
