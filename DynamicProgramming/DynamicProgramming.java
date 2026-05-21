@@ -65,45 +65,69 @@ public class DynamicProgramming {
     // have to choose!
     // Write a method that returns the maximum POINTS you can get.
     public static int scavHunt(int[] times, int[] points) {
-        return findMaxPoints(times, points, 0);
+        return findMaxReward(0, times, points);
     }
 
-    public static int findMaxPoints(int[] times, int[] points, int index) {
-         HashMap<scavKey, Integer> paths = pathways;
-        if (index >= times.length) {
+    public static int findMaxReward(int startingIndex, int[] times, int[] points) {
+        if (startingIndex == times.length - 1) {
+            return points[times.length - 1];
+        }
+        if (startingIndex >= times.length) {
             return 0;
         }
-        scavKey currentNode = new scavKey(index, points, times);
-        if (pathways.containsKey(currentNode)) {
-            return pathways.get(currentNode);
-        }
-        if (times.length - index == 1) {
-            pathways.put(currentNode, points[index]);
-            return pathways.get(currentNode);
-        }
-
-        int nextIndex = index + 5;
-        for (int i = index; i < nextIndex; i++) {
+        int nextIndex = startingIndex + 5;
+        for (int i = startingIndex; i < nextIndex; i++) {
             if (i >= times.length) {
                 break;
             }
-            if (times[i] >= times[index] + 5) {
+            if (times[i] >= times[startingIndex] + 5) {
                 nextIndex = i;
             }
         }
-        int chose = points[0] + findMaxPoints(times, points, nextIndex);
-        scavKey nextNode = new scavKey(times[index + 1], points, times);
-        int dont = findMaxPoints(times, points, index + 1);
-
-        if (chose > dont) {
-            pathways.put(currentNode, chose);
-            return pathways.get(currentNode);
+        int chosen = points[startingIndex] + findMaxReward(nextIndex, times, points);
+        int notChosen = findMaxReward(startingIndex + 1, times, points);
+        if (chosen > notChosen) {
+            return chosen;
         } else {
-            pathways.put(nextNode, dont);
-            return pathways.get(nextNode);
+            return notChosen;
         }
-
     }
+    // public static int findMaxPoints(int[] times, int[] points, int index) {
+    // HashMap<scavKey, Integer> paths = pathways;
+    // if (index >= times.length) {
+    // return 0;
+    // }
+    // scavKey currentNode = new scavKey(index, points, times);
+    // if (pathways.containsKey(currentNode)) {
+    // return pathways.get(currentNode);
+    // }
+    // if (times.length - index == 1) {
+    // pathways.put(currentNode, points[index]);
+    // return pathways.get(currentNode);
+    // }
+
+    // int nextIndex = index + 5;
+    // for (int i = index; i < nextIndex; i++) {
+    // if (i >= times.length) {
+    // break;
+    // }
+    // if (times[i] >= times[index] + 5) {
+    // nextIndex = i;
+    // }
+    // }
+    // int chose = points[0] + findMaxPoints(times, points, nextIndex);
+    // scavKey nextNode = new scavKey(times[index + 1], points, times);
+    // int dont = findMaxPoints(times, points, index + 1);
+
+    // if (chose > dont) {
+    // pathways.put(currentNode, chose);
+    // return pathways.get(currentNode);
+    // } else {
+    // pathways.put(nextNode, dont);
+    // return pathways.get(nextNode);
+    // }
+
+    // }
 
 
     /*
