@@ -41,8 +41,4 @@ public class scavKey {
         return false;
     }
 
-    public int hashCode() {
-        return (int) (Math.abs(this.hashCode() % times.length));
-    }
-
 }
