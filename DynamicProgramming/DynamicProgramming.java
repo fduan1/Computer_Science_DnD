@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class DynamicProgramming {
 
-    private static HashMap<scavKey, Integer> pathways = new HashMap<>();
+    private static HashMap<Integer, Integer> pathways = new HashMap<>();
     private static HashMap<cookieKey, Integer> cookies = new HashMap<>();
     private static HashMap<jobKey, Integer> payments = new HashMap<>();
 
@@ -116,7 +116,9 @@ public class DynamicProgramming {
     }
     }
     int chose = points[0] + findMaxPoints(times, points, nextIndex);
-    scavKey nextNode = new scavKey(times[index + 1], points, times);
+    scavKey nextNode = new scavKey(index + 1, points, times);
+    System.out.println(nextNode.getIndex() + "  " + nextNode.hashCode());
+    System.out.println(nextNode);
     int dont = findMaxPoints(times, points, index + 1);
 
     if (chose > dont) {
@@ -127,6 +129,10 @@ public class DynamicProgramming {
     return pathways.get(nextNode);
     }
 
+    } 
+
+    public static makeScavKey(int[] times, int[] points, int index) {
+        return index + (int) times + (int) points;
     }
 
 
